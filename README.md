@@ -1,3 +1,3 @@
-# TK 2 - SIDONA
+Kelas A Kelompok 11 - SIDONA
 
-## Kelompok 11 Kelas A
+http://a11-sidona.herokuapp.com/
