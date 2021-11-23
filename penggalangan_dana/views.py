@@ -7,3 +7,6 @@ def daftar_penggalangan(request):
 
 def daftar_penggalangan_admin(request):
     return render(request, "penggalangan/admin/daftar_penggalangan.html")
+
+def form_update(request):
+    return render(request, "penggalangan/form_update.html")
