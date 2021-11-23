@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar navbar-dark bg-dark">
-  <a class="navbar-brand" href="#">Navbar</a>
+  <a class="navbar-brand" href="/">SIDONA</a>
   <button
     class="navbar-toggler"
     type="button"
@@ -14,7 +14,16 @@
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav">
       <a class="nav-item nav-link {% if request.resolver_match.url_name == 'home' %} active{% endif %}" href="/">Home</a>
-      <a class="nav-item nav-link {% if request.resolver_match.url_name == 'penggalangan' %} active{% endif %}" href="{% url 'main:penggalangan' %}">Penggalangan</a>
+
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Penggalangan Dana
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="{% url 'main:daftar_penggalangan' %}">Daftar Penggalangan Dana</a>
+          <a class="dropdown-item" href="{% url 'main:daftar_penggalangan_admin' %}">Daftar Penggalangan Dana (Admin)</a>
+        </div>
+      </li>
     </div>
   </div>
 </nav>
