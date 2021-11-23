@@ -20,8 +20,9 @@
           Penggalangan Dana
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="{% url 'main:daftar_penggalangan' %}">Daftar Penggalangan Dana</a>
-          <a class="dropdown-item" href="{% url 'main:daftar_penggalangan_admin' %}">Daftar Penggalangan Dana (Admin)</a>
+          <a class="dropdown-item" href="{% url 'penggalangan_dana:daftar' %}">Daftar Penggalangan Dana</a>
+          <a class="dropdown-item" href="{% url 'penggalangan_dana:daftar_admin' %}">Daftar Penggalangan Dana (Admin)</a>
+          <a class="dropdown-item" href="{% url 'penggalangan_dana:form_update' %}">Form Update</a>
         </div>
       </li>
     </div>
