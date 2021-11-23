@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block meta %}
+<title>Hello, world!</title>
+{% endblock meta %}
+
+{% block content %}
+  <form action="/sukses" method="post">
+    {% csrf_token %}
+    nama anda: <br>
+    <input type="text" class="form-control" name="nama" id="nama" value="{{nama}}" readonly/> <br>
+    alamat anda: <br>
+    <input type="text" class="form-control" name="alamat" id="alamat"/> <br>
+    <button type="submit">submit</button>
+  </form>
+{% endblock content %}
