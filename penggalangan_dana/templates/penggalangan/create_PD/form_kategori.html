@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block meta %}
+<title>Select Category</title>
+{% endblock meta %}
+
+{% block content %}
+<div class="alert alert-primary" role="alert", id="KesehatanChoice", style="display: none;">
+  <h5>Masukkan Data Pasien Baru?</h5>
+  <a class="btn btn-primary" href="#" role="button">Ya</a>
+  <a class="btn btn-primary" href="{% url 'penggalangan_dana:cek_pasien' %}" role="button">Tidak</a>
+</div>
+
+<div class="alert alert-primary" role="alert", id="RumahIbadahChoice", style="display: none;">
+  <h5>Masukkan Data Rumah Ibadah Baru?</h5>
+  <a class="btn btn-primary" href="#" role="button">Ya</a>
+  <a class="btn btn-primary" href="{% url 'penggalangan_dana:cek_rumah' %}" role="button">Tidak</a>
+</div>
+
+<h4>Select Your Category</h4>
+<form action="", method="post", onsubmit="submitForm(event)">
+  {% csrf_token %}
+  <select name="category", id="category">
+    <option value="Kesehatan">Kesehatan</option>
+    <option value="Rumah Ibadah">Rumah Ibadah</option>
+    <option value="Global Warming">Global Warming</option>
+  </select>
+  <button type="submit"> Next </button>
+</form>
+<script type="text/JavaScript">
+  function submitForm(event){
+    var category = document.getElementById("category").value;
+    if(category === "Kesehatan"){
+      event.preventDefault();
+      if(document.getElementById("RumahIbadahChoice").style.display==="block"){
+        document.getElementById("RumahIbadahChoice").style.display = "None";
+      }
+      document.getElementById("KesehatanChoice").style.display = "block";
+    }
+    else if(category ==="Rumah Ibadah"){
+      event.preventDefault();
+      if(document.getElementById("KesehatanChoice").style.display==="block"){
+        document.getElementById("KesehatanChoice").style.display = "None";
+      }
+      document.getElementById("RumahIbadahChoice").style.display = "block";
+    }
+  }
+</script>
+{% endblock content %}

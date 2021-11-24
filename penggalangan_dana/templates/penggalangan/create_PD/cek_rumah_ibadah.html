@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block meta %}
+<title>Hello, world!</title>
+{% endblock meta %}
+
+{% block content %}
+<h2>CEK RUMAH IBADAH YANG TERDAFTAR</h2>
+<form action="" method = "post">
+  {% csrf_token %}
+  <label for="noSertif">Nomor Sertifikat Rumah Ibadah: </label>
+  <input type="text" id="No Sertif" name="noSertif"><br>
+  <button type="submit"> Next </button>
+</form>
+{% endblock content %}
