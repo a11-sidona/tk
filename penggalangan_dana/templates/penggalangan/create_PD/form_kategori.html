@@ -8,13 +8,13 @@
 {% block content %}
 <div class="alert alert-primary" role="alert", id="KesehatanChoice", style="display: none;">
   <h5>Masukkan Data Pasien Baru?</h5>
-  <a class="btn btn-primary" href="#" role="button">Ya</a>
+  <a class="btn btn-primary" href="{% url 'penggalangan_dana:daftar_pasien' %}" role="button">Ya</a>
   <a class="btn btn-primary" href="{% url 'penggalangan_dana:cek_pasien' %}" role="button">Tidak</a>
 </div>
 
 <div class="alert alert-primary" role="alert", id="RumahIbadahChoice", style="display: none;">
   <h5>Masukkan Data Rumah Ibadah Baru?</h5>
-  <a class="btn btn-primary" href="#" role="button">Ya</a>
+  <a class="btn btn-primary" href="{% url 'penggalangan_dana:daftar_rumah' %}" role="button">Ya</a>
   <a class="btn btn-primary" href="{% url 'penggalangan_dana:cek_rumah' %}" role="button">Tidak</a>
 </div>
 

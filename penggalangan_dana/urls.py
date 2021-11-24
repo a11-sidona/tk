@@ -11,5 +11,7 @@ urlpatterns = [
     path("create", views.create_PD_category, name="create_PD_category"),
     path("create/cekpasien", views.cek_pasien, name="cek_pasien"),
     path("create/cekrumah", views.cek_rumah, name="cek_rumah"),
+    path("create/daftarrumah", views.daftar_rumah, name="daftar_rumah"),
+    path("create/daftarpasien", views.daftar_pasien, name="daftar_pasien"),
     path("create/form_PD", views.form_PD, name="form_PD"),
 ]
