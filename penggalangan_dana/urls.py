@@ -9,6 +9,7 @@ urlpatterns = [
     path("admin", views.daftar_penggalangan_admin, name="daftar_admin"),
     path("PD", views.daftar_penggalangan_PD, name="daftar_PD"),
     path("update", views.form_update, name="form_update"),
+    path("form_verifikasi", views.form_verifikasi, name="daftar"),
     path("komorbid", views.komorbid, name="komorbid"),
     path("komorbid/tambah", views.komorbid_tambah, name="komorbid_tambah"),
     path("komorbid/update", views.komorbid_update, name="komorbid_update"),
