@@ -11,23 +11,23 @@
   {% csrf_token %}
   <div class="form-group">
     <label for="NIK">NIK: </label>
-    <input type="text" class="form-control" id="NIK" name="NIK">
+    <input type="text" class="form-control" id="NIK" name="NIK" required>
   </div>
   <div class="form-group">
     <label for="Nama">Nama: </label>
-    <input type="text" class="form-control" id="Nama" name="Nama">
+    <input type="text" class="form-control" id="Nama" name="Nama" required>
   </div>
   <div class="form-group">
     <label for="Tanggal">Tanggal Lahir: </label>
-    <input type="date" class="form-control" id="Tanggal" name="Tanggal">
+    <input type="date" class="form-control" id="Tanggal" name="Tanggal" required>
   </div>
   <div class="form-group">
     <label for="Alamat">Alamat: </label>
-    <input type="text" class="form-control" id="Alamat" name="Alamat">
+    <input type="text" class="form-control" id="Alamat" name="Alamat" required>
   </div>
   <div class="form-group">
     <label for="Pekerjaan">Pekerjaan: </label>
-    <input type="text" class="form-control" id="Pekerjaan" name="Pekerjaan">
+    <input type="text" class="form-control" id="Pekerjaan" name="Pekerjaan" required>
   </div>
   <button type="submit"> Next </button>
 </form>
