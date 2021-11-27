@@ -1,0 +1,17 @@
+{% extends 'base.html' %} {% load static %} {% block meta %}
+<title>Form Verifikasi Penggalangan Dana</title>
+{% endblock meta %} {% block content %}
+<h1>Form Verifikasi Penggalangan Dana</h1>
+<form class="mt-4 border p-4" style="max-width: 640px">
+  <div class="form-group">
+    <label>Catatan Pengajuan</label>
+    <textarea
+      class="form-control"
+      rows="7"
+      placeholder="Masukkan catatan pengajuan"
+    ></textarea>
+  </div>
+  <button type="submit" class="btn btn-primary">Verifikasi</button>
+  <button class="btn btn-danger">Tolak Verifikasi</button>
+</form>
+{% endblock content %}
