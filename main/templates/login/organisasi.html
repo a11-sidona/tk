@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<h1>Register Penggalang Dana</h1>
+<form class="mt-4 border p-4" style="max-width: 640px;">
+    <h4>Organisasi</h4>
+  <div class="form-group">
+    <label>Nama Organisasi</label>
+    <input type="text" class="form-control" placeholder="Masukkan Nama Organisasi" required>
+  </div>
+  <div class="form-group">
+    <label>Nomor Akta Pendirian</label>
+    <input type="number" class="form-control" placeholder="Masukkan Nomor Akta Pendirian" required>
+  </div>
+  <div class="form-group">
+    <label>Nomor Telepon Organisasi</label>
+    <input type="number" class="form-control" placeholder="Masukkan Nomor Telepon Organisasi" required>
+  </div>
+  <div class="form-group">
+    <label>Tahun Berdiri</label>
+    <input type="number" class="form-control" placeholder="Masukkan Tahun Berdiri" required>
+  </div>
+  <div class="form-group">
+    <label>Foto Akta Pendirian</label>
+    <input type="file" class="form-control" id="customFile" />
+  </div>
+
+  <a class="btn btn-primary" href="../pencairan/profile" role="button">Register</a>
+</form>
+
+{% endblock content %}

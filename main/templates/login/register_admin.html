@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<h1>Register Admin</h1>
+<form class="mt-4 border p-4" style="max-width: 640px;">
+  <div class="form-group">
+    <label>Email</label>
+    <input type="text" class="form-control" placeholder="Masukkan email" required>
+  </div>
+  <div class="form-group">
+    <label>Password</label>
+    <input type="password" class="form-control" placeholder="Masukkan password" required>
+  </div>
+  <div class="form-group">
+    <label>Nama</label>
+    <input type="text" class="form-control" placeholder="Masukkan nama" required>
+  </div>
+  <div class="form-group">
+    <label>Nomor HP</label>
+    <input type="number" class="form-control" placeholder="Masukkan nomor HP" required>
+  </div>
+  <button type="submit" class="btn btn-primary">Register</button>
+</form>
+
+{% endblock content %}
