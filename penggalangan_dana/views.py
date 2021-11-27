@@ -8,6 +8,9 @@ def daftar_penggalangan(request):
 def daftar_penggalangan_admin(request):
     return render(request, "penggalangan/admin/daftar_penggalangan.html")
 
+def daftar_penggalangan_PD(request):
+    return render(request, "penggalangan/admin/daftar_PD_pribadi.html")
+
 def form_update(request):
     return render(request, "penggalangan/form_update.html")
 
@@ -72,15 +75,28 @@ def form_PD(request):
             response = {}
             response["category"] = "Kesehatan"
             response["NIK"] = nik
-            return render(request, "penggalangan/admin/daftar_penggalangan.html", response)
+            return render(request, "penggalangan/admin/daftar_PD_pribadi.html", response)
         elif(category == "Rumah Ibadah"):
             noSertif = request.POST["noSertif"]
             response = {}
             response["category"] = "Rumah Ibadah"
             response["noSertif"] = noSertif
-            return render(request, "penggalangan/admin/daftar_penggalangan.html", response)
+            return render(request, "penggalangan/admin/daftar_PD_pribadi.html", response)
         else:
             response = {}
             response["category"] = category
-            return render(request, "penggalangan/admin/daftar_penggalangan.html", response)
+            return render(request, "penggalangan/admin/daftar_PD_pribadi.html", response)
     return render(request, "penggalangan/create_PD/form_penggalangan_dana.html")
+
+def komorbid(request):
+    return render(request, "penggalangan/Komorbid/komorbid.html")
+
+def komorbid_tambah(request):
+    if request.method == "POST":
+        return render(request, "penggalangan/Komorbid/komorbid.html")
+    return render(request, "penggalangan/Komorbid/form_tambah.html")
+
+def komorbid_update(request):
+    if request.method == "POST":
+        return render(request, "penggalangan/Komorbid/komorbid.html")
+    return render(request, "penggalangan/Komorbid/form_update.html")
