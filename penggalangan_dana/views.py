@@ -12,7 +12,11 @@ def daftar_penggalangan_PD(request):
     return render(request, "penggalangan/admin/daftar_PD_pribadi.html")
 
 def form_update(request):
-    return render(request, "penggalangan/form_update.html")
+    kategori = request.GET.get('kategori', 'lainnya')
+    response = {
+        'kategori': kategori
+    }
+    return render(request, "penggalangan/form_update.html", response)
 
 def create_PD_category(request):
     if request.method == "POST":
