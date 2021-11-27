@@ -12,5 +12,6 @@ urlpatterns = [
     path("register-admin", views.register_admin, name="register-admin"),
     path("register-user", views.register_user, name="register-user"),
     path("register-user-individu", views.register_user_individu, name="register-user-individu"),
-    path("register-user-organisasi", views.register_user_organisasi, name="register-user-organisasi")
+    path("register-user-organisasi", views.register_user_organisasi, name="register-user-organisasi"),
+    path("admin-sidona/list-pengguna", views.list_pengguna_terdaftar, name="list_pengguna")
 ]

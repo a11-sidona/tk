@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block meta %}
+<title>List Pengguna Terdaftar</title>
+{% endblock meta %}
+
+{% block content %}
+<h1>List Pengguna Terdaftar</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Email</th>
+            <th>Nama</th>
+            <th>Jenis</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>timothy@gmail.com</td>
+            <td>Timothy</td>
+            <td>Individu</td>
+            <td>Terverivikasi</td>
+            <td>
+                <a href="#">[Detail]</a>
+            </td>
+        </tr>
+        <tr>
+            <td>cahaya@gmail.com</td>
+            <td>PT Cahaya</td>
+            <td>Organisasi</td>
+            <td>Belum Terverivikasi</td>
+            <td>
+                <a href="#">[Detail]</a>
+                <a href="#">[Verifikasi]</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+{% endblock content %}
