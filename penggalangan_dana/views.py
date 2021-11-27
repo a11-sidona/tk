@@ -21,6 +21,13 @@ def form_update(request):
 def form_verifikasi(request):
     return render(request, "penggalangan/form_verifikasi.html")
 
+def detail_penggalangan(request):
+    id = request.GET.get('id', '1')
+    response = {
+        'id': id
+    }
+    return render(request, "penggalangan/detail_penggalangan.html", response)
+
 def create_PD_category(request):
     if request.method == "POST":
         category = request.POST["category"]
