@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     "main",
     "penggalangan_dana",
     "pencairanDana",
+    "donasi",
 ]
 
 MIDDLEWARE = [
