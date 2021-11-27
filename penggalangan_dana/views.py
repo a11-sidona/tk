@@ -21,6 +21,15 @@ def form_update(request):
 def form_verifikasi(request):
     return render(request, "penggalangan/form_verifikasi.html")
 
+def form_tambah_kategori(request):
+    return render(request, "penggalangan/kategori/form_tambah.html")
+
+def list_kategori(request):
+    return render(request, "penggalangan/kategori/list.html")
+
+def form_update_kategori(request):
+    return render(request, "penggalangan/kategori/form_update.html")
+
 def detail_penggalangan(request):
     id = request.GET.get('id', '1')
     response = {

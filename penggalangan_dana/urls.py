@@ -20,4 +20,7 @@ urlpatterns = [
     path("create/daftarrumah", views.daftar_rumah, name="daftar_rumah"),
     path("create/daftarpasien", views.daftar_pasien, name="daftar_pasien"),
     path("create/form_PD", views.form_PD, name="form_PD"),
+    path("kategori/tambah", views.form_tambah_kategori),
+    path("kategori/", views.list_kategori),
+    path("kategori/update", views.form_update_kategori),
 ]
