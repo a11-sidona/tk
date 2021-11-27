@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block meta %}
+<title>Daftar Komorbid</title>
+{% endblock meta %}
+
+{% block content %}
+<h1>Halaman Kelola Penyakit Komorbid</h1>
+<a class="btn btn-primary" href="{% url 'penggalangan_dana:komorbid_tambah' %}" role="button">Tambah Komorbid</a>
+<table
+  class="table table-striped table-md table-responsive"
+  style="font-size: large"
+>
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Judul</th>
+      <th scope="col">Penyakit Utama</th>
+      <th scope="col">Penyakit Komorbid/th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">K-001</th>
+      <td>Ayo bantu Zulfahri menghadapi penyakit Demam Berdarahnya!</td>
+      <td>Pusing</td>
+      <td>Sakit Perut</td>
+      <td><a href="{% url 'penggalangan_dana:komorbid_update' %}">[Update]</a></td>
+      <td><a href="#">[Delete]</a></td>
+    </tr>
+  </tbody>
+</table>
+{% endblock content %}

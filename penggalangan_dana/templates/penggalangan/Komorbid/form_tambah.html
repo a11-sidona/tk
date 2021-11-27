@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block meta %}
+<title>Form Tambah Komorbid</title>
+{% endblock meta %}
+
+{% block content %}
+<h2>Form Penyakit Komorbid</h2>
+<form class="mt-4 border p-4" style="max-width: 640px;" name="form_updt" method="post" >
+  {% csrf_token %}
+    <div class="form-group">
+        <label>ID Pengggalangan Dana: </label>
+        <select name="select required" class="form-control" id="select" required>
+            <option selected disabled value="">Choose...</option>
+            <option>K-001</option>
+            <option>K-002</option>
+            <option>K-003</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label>Komorbid:</label>
+        <input type="text" class="form-control required" name="penyakit" required>
+    </div>
+  <button type="submit"> Submit </button>
+</form>
+{% endblock content %}

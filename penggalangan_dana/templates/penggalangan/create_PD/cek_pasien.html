@@ -10,7 +10,7 @@
 <form action="" method="post">
   {% csrf_token %}
   <label for="NIK">NIK Pasien: </label>
-  <input type="text" id="NIK" name="NIK"><br>
+  <input type="text" id="NIK" name="NIK" required><br>
   <button type="submit"> Next </button>
 </form>
 {% endblock content %}
