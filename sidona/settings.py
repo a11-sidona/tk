@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    'django.contrib.humanize',
     "main",
     "penggalangan_dana",
     "pencairanDana",
@@ -135,7 +136,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 # Feel free to change these according to your needs.
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "id-ID"
 
 TIME_ZONE = "UTC"
 

@@ -39,3 +39,6 @@ def register_user_individu(request):
 
 def register_user_organisasi(request):
     return render(request, "login/organisasi.html")
+
+def list_pengguna_terdaftar(request):
+    return render(request, "admin/list_pengguna.html")
