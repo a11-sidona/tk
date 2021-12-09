@@ -1,5 +1,8 @@
-from django.shortcuts import render
+from django.http import response, JsonResponse
+from django.shortcuts import render, redirect
+from django.db import connection
 
+cursor = connection.cursor()
 
 def daftar_penggalangan(request):
     return render(request, "penggalangan/daftar_penggalangan.html")
@@ -11,18 +14,20 @@ def daftar_penggalangan_admin(request):
 def daftar_penggalangan_PD(request):
     return render(request, "penggalangan/admin/daftar_PD_pribadi.html")
 
+
 def form_update(request):
-    kategori = request.GET.get('kategori', 'lainnya')
-    response = {
-        'kategori': kategori
-    }
+    kategori = request.GET.get("kategori", "lainnya")
+    response = {"kategori": kategori}
     return render(request, "penggalangan/form_update.html", response)
+
 
 def form_verifikasi(request):
     return render(request, "penggalangan/form_verifikasi.html")
 
+
 def form_tambah_kategori(request):
     return render(request, "penggalangan/kategori/form_tambah.html")
+
 
 def list_kategori(request):
     return render(request, "penggalangan/kategori/list.html")
@@ -38,6 +43,11 @@ def detail_penggalangan(request):
     return render(request, "penggalangan/detail_penggalangan.html", response)
 
 def create_PD_category(request):
+    cursor.execute("select nama_kategori from sidona.kategori_pd")
+    kategori = cursor.fetchall()
+    response ={
+        "kategori" : kategori,
+    }
     if request.method == "POST":
         category = request.POST["category"]
 
@@ -45,14 +55,30 @@ def create_PD_category(request):
         response["category"] = category
         return render(request, "penggalangan/create_PD/form_penggalangan_dana.html", response)
 
-    return render(request, "penggalangan/create_PD/form_kategori.html")
+    return render(request, "penggalangan/create_PD/form_kategori.html", response)
+
+def increment_id_pd():
+    cursor.execute("select id from sidona.penggalangan_dana_pd order by id desc limit 1")
+    newID = cursor.fetchall()
+    newID= str(int(newID[0][0])+1)
+    return newID
 
 def cek_pasien(request):
     if request.method == "POST":
         nik = request.POST["NIK"]
+        cursor.execute("select nik from sidona.pasien where nik = %s", [nik])
+        result = cursor.fetchall()
+        if(len(result)==0):
+            response = {
+                "warning":"gagal"
+            }
+            return render(request, "penggalangan/create_PD/cek_pasien.html",response)
         response = {}
+        cursor.execute("select nama from sidona.pasien where nik = %s", [nik])
         response["category"] = "Kesehatan"
         response["NIK"] = nik
+        response["nama"] = cursor.fetchall()
+        response["id"] = increment_id_pd()
         return render(request, "penggalangan/create_PD/form_penggalangan_dana.html", response)
 
     return render(request, "penggalangan/create_PD/cek_pasien.html")
@@ -60,10 +86,19 @@ def cek_pasien(request):
 def cek_rumah(request):
     if request.method == "POST":
         noSertif = request.POST["noSertif"]
-
+        cursor.execute("select nosertifikat from sidona.rumah_ibadah where nosertifikat = %s", [noSertif])
+        result = cursor.fetchall()
+        if(len(result)==0):
+            response = {
+                "warning":"gagal"
+            }
+            return render(request, "penggalangan/create_PD/cek_rumah_ibadah.html",response)
         response = {}
         response["category"] = "Rumah Ibadah"
         response["noSertif"] = noSertif
+        cursor.execute("select nama from sidona.kategori_aktivitas_pd_rumah_ibadah")
+        response["kategori"] = cursor.fetchall()
+        response["id"] = increment_id_pd()
         return render(request, "penggalangan/create_PD/form_penggalangan_dana.html", response)
 
     return render(request, "penggalangan/create_PD/cek_rumah_ibadah.html")
@@ -71,10 +106,17 @@ def cek_rumah(request):
 def daftar_pasien(request):
     if request.method == "POST":
         nik = request.POST["NIK"]
-
+        nama = request.POST["Nama"]
+        tanggal = request.POST["Tanggal"]
+        alamat = request.POST["Alamat"]
+        pekerjaan = request.POST["Pekerjaan"]
+        cursor.execute("insert into pasien values (%s,%s,%s,%s,%s)",[nik, nama, tanggal, alamat, pekerjaan])
+        cursor.execute("select nama from sidona.pasien where nik = %s", [nik])
         response = {}
         response["category"] = "Kesehatan"
         response["NIK"] = nik
+        response["nama"] = cursor.fetchall()
+        response["id"] = increment_id_pd()
         return render(request, "penggalangan/create_PD/form_penggalangan_dana.html", response)
 
     return render(request, "penggalangan/create_PD/form_pasien.html")
@@ -82,15 +124,23 @@ def daftar_pasien(request):
 def daftar_rumah(request):
     if request.method == "POST":
         noSertif = request.POST["noSertif"]
-
+        nama = request.POST["Nama"]
+        alamat = request.POST["Alamat"]
+        jenis = request.POST["Jenis"]
         response = {}
         response["category"] = "Rumah Ibadah"
         response["noSertif"] = noSertif
+        cursor.execute("select nama from sidona.kategori_aktivitas_pd_rumah_ibadah")
+        response["kategori"] = cursor.fetchall
+        cursor.execute("insert into rumah_ibadah values (%s,%s,%s,%s)",[noSertif, nama, alamat, jenis])
+        response["id"] = increment_id_pd()
         return render(request, "penggalangan/create_PD/form_penggalangan_dana.html", response)
 
     return render(request, "penggalangan/create_PD/form_rumah_ibadah.html")
 
 def form_PD(request):
+    response = {}
+    response["id"] = increment_id_pd()
     if request.method == "POST":
         category = request.POST["category"]
         if(category == "Kesehatan"):
@@ -109,17 +159,37 @@ def form_PD(request):
             response = {}
             response["category"] = category
             return render(request, "penggalangan/admin/daftar_PD_pribadi.html", response)
-    return render(request, "penggalangan/create_PD/form_penggalangan_dana.html")
+    return render(request, "penggalangan/create_PD/form_penggalangan_dana.html", response)
 
 def komorbid(request):
-    return render(request, "penggalangan/Komorbid/komorbid.html")
+    cursor.execute("select K.idPD, PD.judul, Kes.penyakit, K.komorbid from sidona.komorbid K left join sidona.penggalangan_dana_pd PD on PD.id = K.idPD left join sidona.PD_Kesehatan Kes on K.idPD = Kes.idPD")
+    komorbid = cursor.fetchall()
+    response = {
+        'komorbid': komorbid,
+    }
+    return render(request, "penggalangan/Komorbid/komorbid.html", response)
 
 def komorbid_tambah(request):
+    cursor.execute("select Kes.idPD from sidona.PD_Kesehatan Kes")
+    idPD = cursor.fetchall()
+    response = {
+        'idPD': idPD,
+    }
     if request.method == "POST":
-        return render(request, "penggalangan/Komorbid/komorbid.html")
-    return render(request, "penggalangan/Komorbid/form_tambah.html")
+        id = request.POST["select"]
+        penyakit = request.POST["penyakit"]
+        cursor.execute("insert into sidona.komorbid values (%s,%s)", [id,penyakit])
+        return redirect("penggalangan_dana:komorbid")
+    return render(request, "penggalangan/Komorbid/form_tambah.html", response)
 
-def komorbid_update(request):
+def komorbid_update(request,id):
+    cursor.execute("select K.idPD, K.komorbid from sidona.komorbid K left join sidona.penggalangan_dana_pd PD on PD.id = K.idPD where K.idPD = %s", [id])
+    komorbid = cursor.fetchall()
+    response = {
+        'komorbid': komorbid,
+    }
     if request.method == "POST":
-        return render(request, "penggalangan/Komorbid/komorbid.html")
-    return render(request, "penggalangan/Komorbid/form_update.html")
+        komorbid = request.POST["penyakit"]
+        cursor.execute("update sidona.komorbid set komorbid=%s where idPD = %s",[komorbid,id])
+        return redirect("penggalangan_dana:komorbid")
+    return render(request, "penggalangan/Komorbid/form_update.html",response)
