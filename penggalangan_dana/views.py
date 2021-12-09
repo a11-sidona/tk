@@ -1,12 +1,7 @@
-<<<<<<< HEAD
 from django.http import response, JsonResponse
 from django.shortcuts import render, redirect
 from django.db import connection
-=======
-from django.shortcuts import render
-from django.db import connection
 from penggalangan_dana.utils import namedtuple_fetch_all
->>>>>>> 4492e0ed49e082827d235294d73227d62eaa8965
 
 cursor = connection.cursor()
 
@@ -98,15 +93,9 @@ def cek_pasien(request):
         cursor.execute("select nama from sidona.pasien where nik = %s", [nik])
         response["category"] = "Kesehatan"
         response["NIK"] = nik
-<<<<<<< HEAD
         response["nama"] = cursor.fetchall()
         response["id"] = increment_id_pd()
         return render(request, "penggalangan/create_PD/form_penggalangan_dana.html", response)
-=======
-        return render(
-            request, "penggalangan/create_PD/form_penggalangan_dana.html", response
-        )
->>>>>>> 4492e0ed49e082827d235294d73227d62eaa8965
 
     return render(request, "penggalangan/create_PD/cek_pasien.html")
 
@@ -124,16 +113,10 @@ def cek_rumah(request):
         response = {}
         response["category"] = "Rumah Ibadah"
         response["noSertif"] = noSertif
-<<<<<<< HEAD
         cursor.execute("select nama from sidona.kategori_aktivitas_pd_rumah_ibadah")
         response["kategori"] = cursor.fetchall()
         response["id"] = increment_id_pd()
         return render(request, "penggalangan/create_PD/form_penggalangan_dana.html", response)
-=======
-        return render(
-            request, "penggalangan/create_PD/form_penggalangan_dana.html", response
-        )
->>>>>>> 4492e0ed49e082827d235294d73227d62eaa8965
 
     return render(request, "penggalangan/create_PD/cek_rumah_ibadah.html")
 
@@ -150,15 +133,9 @@ def daftar_pasien(request):
         response = {}
         response["category"] = "Kesehatan"
         response["NIK"] = nik
-<<<<<<< HEAD
         response["nama"] = cursor.fetchall()
         response["id"] = increment_id_pd()
         return render(request, "penggalangan/create_PD/form_penggalangan_dana.html", response)
-=======
-        return render(
-            request, "penggalangan/create_PD/form_penggalangan_dana.html", response
-        )
->>>>>>> 4492e0ed49e082827d235294d73227d62eaa8965
 
     return render(request, "penggalangan/create_PD/form_pasien.html")
 
@@ -172,17 +149,11 @@ def daftar_rumah(request):
         response = {}
         response["category"] = "Rumah Ibadah"
         response["noSertif"] = noSertif
-<<<<<<< HEAD
         cursor.execute("select nama from sidona.kategori_aktivitas_pd_rumah_ibadah")
         response["kategori"] = cursor.fetchall
         cursor.execute("insert into rumah_ibadah values (%s,%s,%s,%s)",[noSertif, nama, alamat, jenis])
         response["id"] = increment_id_pd()
         return render(request, "penggalangan/create_PD/form_penggalangan_dana.html", response)
-=======
-        return render(
-            request, "penggalangan/create_PD/form_penggalangan_dana.html", response
-        )
->>>>>>> 4492e0ed49e082827d235294d73227d62eaa8965
 
     return render(request, "penggalangan/create_PD/form_rumah_ibadah.html")
 
@@ -211,15 +182,8 @@ def form_PD(request):
         else:
             response = {}
             response["category"] = category
-<<<<<<< HEAD
             return render(request, "penggalangan/admin/daftar_PD_pribadi.html", response)
     return render(request, "penggalangan/create_PD/form_penggalangan_dana.html", response)
-=======
-            return render(
-                request, "penggalangan/admin/daftar_PD_pribadi.html", response
-            )
-    return render(request, "penggalangan/create_PD/form_penggalangan_dana.html")
->>>>>>> 4492e0ed49e082827d235294d73227d62eaa8965
 
 
 def komorbid(request):
@@ -238,7 +202,6 @@ def komorbid_tambah(request):
         'idPD': idPD,
     }
     if request.method == "POST":
-<<<<<<< HEAD
         id = request.POST["select"]
         penyakit = request.POST["penyakit"]
         cursor.execute("insert into sidona.komorbid values (%s,%s)", [id,penyakit])
@@ -256,13 +219,3 @@ def komorbid_update(request,id):
         cursor.execute("update sidona.komorbid set komorbid=%s where idPD = %s",[komorbid,id])
         return redirect("penggalangan_dana:komorbid")
     return render(request, "penggalangan/Komorbid/form_update.html",response)
-=======
-        return render(request, "penggalangan/Komorbid/komorbid.html")
-    return render(request, "penggalangan/Komorbid/form_tambah.html")
-
-
-def komorbid_update(request):
-    if request.method == "POST":
-        return render(request, "penggalangan/Komorbid/komorbid.html")
-    return render(request, "penggalangan/Komorbid/form_update.html")
->>>>>>> 4492e0ed49e082827d235294d73227d62eaa8965
