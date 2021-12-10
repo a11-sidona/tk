@@ -4,7 +4,7 @@
 {% block content %}
 
 <style>
-    @import url(https://fonts.googleapis.com/css?family=Montserrat:400,700);
+@import url(https://fonts.googleapis.com/css?family=Montserrat:400,700);
 
 body { background:rgb(30,30,40); }
 form { max-width:420px; margin:50px auto; }
@@ -53,6 +53,8 @@ textarea {
 
 label{
   font-size: large;
+  text-align: center
+  
 
 }
 
@@ -62,16 +64,55 @@ label{
 
 
 <body>
+
+  {% if messages %}
+{% for message in messages %}
+  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <strong>{{message}}</strong> 
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  {% endfor %}
+  {% endif %}
+
     <header style="text-align: center;">Form Pencairan Dana</header>
-    <form>      
-        <label for="donaPay">Saldo DonaPay</label>
-        <p id="donaPay">500.000</p>
-        <label for="penggalangan">Penggalangan Dana</label>
-        <p id="penggalangan">Ayo bantu Zulfahri menghadapi penyakit Demam Berdarahnya! </p>
+    
+        {% comment %} {% for penggalang in penggalangDana %} 
+        <label for="donaPay" style="text-align: center;">Saldo DonaPay</label>
+        <p id="donaPay">{{penggalang.0}}</p>
+        
+        <label for="penggalangan" style="text-align: center;">Penggalangan Dana</label>
+        <p id="penggalangan">{{penggalang.1}}</p>
+        {% endfor %}
+
+        <form action="{% url 'pencairanDana' %}" method="POST">
         <input name="nominal" type="number" class="feedback-input" placeholder="Nominal" />
-        <textarea name="text" class="feedback-input" placeholder="Comment"></textarea>
+        <textarea name="deskripsi" class="feedback-input" placeholder="Comment"></textarea>
+        <input type="submit" value="SUBMIT"/>
+      </form> {% endcomment %}
+
+      
+        
+     
+      <form action="{% url 'cairDana' %}" method="POST">
+        {% csrf_token %}
+        <label for="donaPay">Saldo DonaPay</label>
+        <p id="donaPay">Rp. {{penggalangDana.0.0}}</p>
+        <label for="penggalangan">Penggalangan Dana</label>
+        <p id="penggalangan">{{penggalangDana.0.1}}</p>
+      
+        
+          
+        <input type="hidden" name="idPd" value="{{penggalangDana.0.2}}">
+        <input name="nominal" type="number" class="feedback-input" placeholder="Nominal" />
+        <textarea name="deskripsi" class="feedback-input" placeholder="Comment"></textarea>
         <input type="submit" value="SUBMIT"/>
       </form>
+      
+
+
+
 </body>
 
 
