@@ -4,8 +4,17 @@ from django.db import connection
 from penggalangan_dana.utils import namedtuple_fetch_all
 
 
+
 def daftar_penggalangan(request):
-    return render(request, "penggalangan/daftar_penggalangan.html")
+    cursor_p = connection.cursor()
+    query = """
+            SELECT pd.id, judul, kota, provinsi, tanggal_aktif_akhir, sisa_hari, jumlah_dibutuhkan, nama_kategori
+            FROM sidona.penggalangan_dana_pd pd, sidona.kategori_pd k
+            WHERE pd.id_kategori = k.id AND status_verifikasi = 'Terverifikasi' AND sisa_hari > 0;
+            """
+    cursor_p.execute(query)
+    pds = namedtuple_fetch_all(cursor_p)
+    return render(request, "penggalangan/daftar_penggalangan.html", {"pds": pds})
 
 
 def daftar_penggalangan_admin(request):
@@ -17,9 +26,7 @@ def daftar_penggalangan_admin(request):
             """
     cursor_p.execute(query)
     pds = namedtuple_fetch_all(cursor_p)
-    return render(
-        request, "penggalangan/admin/daftar_penggalangan.html", {"pds": pds}
-    )
+    return render(request, "penggalangan/admin/daftar_penggalangan.html", {"pds": pds})
 
 
 def daftar_penggalangan_PD(request):
@@ -77,6 +84,7 @@ def create_PD_category(request):
             )
 
     return render(request, "penggalangan/create_PD/form_kategori.html", response)
+
 
 def increment_id_pd():
     with connection.cursor() as cursor:
