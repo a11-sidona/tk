@@ -63,16 +63,17 @@
                 <div class="col-lg-4">
                   <div class="card shadow-sm">
                     <div class="card-header bg-transparent text-center">
+                      {% for penggalang in penggalangDana %}
                       <img class="profile_img" src="https://source.unsplash.com/600x300/?student" alt="student dp">
-                      <h3>Ishmam Ahasan Samin</h3>
+                      <h3>{{penggalang.2}}</h3>
                     </div>
                     <div class="card-body">
-                      <p class="mb-0"><strong class="pr-1">Email:</strong>hahahha@gmail.com</p>
-                      <p class="mb-0"><strong class="pr-1">Nomor HP:</strong>081234567890</p>
-                      <p class="mb-0"><strong class="pr-1">Nama Bank:</strong>BCA</p>
-                      <p class="mb-0"><strong class="pr-1">No Rekening:</strong>123456789101112</p>
-                      <p class="mb-0"><strong class="pr-1">Jenis:</strong>Individu</p>
-                      <p class="mb-0"><strong class="pr-1">Alamat:</strong>Jln. ahahhihihakjhduhaiwndkhaiodhias</p>
+                      <p class="mb-0"><strong class="pr-1">Email:</strong>{{penggalang.0}}</p>
+                      <p class="mb-0"><strong class="pr-1">Nomor HP:</strong>{{penggalang.3}}</p>
+                      <p class="mb-0"><strong class="pr-1">Nama Bank:</strong>{{penggalang.7}}</p>
+                      <p class="mb-0"><strong class="pr-1">No Rekening:</strong>{{penggalang.6}}</p>
+                      {% comment %} <p class="mb-0"><strong class="pr-1">Jenis:</strong>Individu</p> {% endcomment %}
+                      <p class="mb-0"><strong class="pr-1">Alamat:</strong>{{penggalang.4}}</p>
                     </div>
                   </div>
                 </div>
@@ -83,35 +84,37 @@
                     </div>
                     <div class="card-body pt-0">
                       <table class="table table-bordered">
-                        <tr>
+                        {% comment %} <tr>
                           <th width="30%">NIK</th>
                           <td width="2%">:</td>
                           <td>123456789010</td>
-                        </tr>
-                        <tr>
+                        </tr> {% endcomment %}
+                        {% comment %} <tr>
                           <th width="30%">Tanggal Lahir</th>
                           <td width="2%">:</td>
                           <td>32 Februari 2021</td>
-                        </tr>
+                        </tr> {% endcomment %}
                         <tr>
-                          <th width="30%">Jenis Kelamin</th>
+                          <th width="30%">Status Verifikasi</th>
                           <td width="2%">:</td>
-                          <td>Laki-laki</td>
+                          <td>{{penggalang.11}}</td>
                         </tr>
                         <tr>
                           <th width="30%">Saldo DonaPay</th>
                           <td width="2%">:</td>
-                          <td>500.000</td>
+                          <td>{{penggalang.5}}</td>
                         </tr>
                       </table>
                     </div>
                   </div>
+                  {% endfor %}
                     <div style="height: 26px"></div>
                   <div class="card shadow-sm">
                     <div class="card-header bg-transparent border-0">
                       <h3 class="mb-0"><i class="far fa-clone pr-1"></i>Penggalangan Dana Pribadi</h3>
                     </div>
                     <div class="card-body pt-0">
+                      {% for penggalangan in penggalanganDana %}
                         <table class="table table-striped table-responsive">
                             <thead>
                               <tr>
@@ -127,23 +130,26 @@
                               </tr>
                             </thead>
                             <tbody>
-                              <tr>
-                                <th scope="row">K-001</th>
-                                <td>Ayo bantu Zulfahri menghadapi penyakit Demam Berdarahnya!</td>
-                                <td>Bandung</td>
-                                <td>Jawa Barat</td>
-                                <td>7 Desember 2021</td>
-                                <td>20 hari</td>
-                                <td>Rp 1.000.000,-</td>
-                                <td>Kesehatan</td>
+                              <tr>{% comment %} {% endcomment %}
+                                <th scope="row">{{penggalangan.0}}</th>  {% comment %} id {% endcomment %}
+                                <td>{{penggalangan.1}}</td> {% comment %} judul {% endcomment %}
+                                <td>{{penggalangan.3}}</td> {% comment %} kota {% endcomment %}
+                                <td>{{penggalangan.4}}</td> {% comment %} provinsi {% endcomment %}
+                                <td>{{penggalangan.9}}</td> {% comment %} deadline {% endcomment %}
+                                <td>{{penggalangan.13}}</td> {% comment %} sisa hari {% endcomment %}
+                                <td>{{penggalangan.10}}</td> {% comment %} target dana {% endcomment %}
+                                <td>{{penggalangan.18}}</td> {% comment %} kategori {% endcomment %}
                                 <td>
                                   <form class="form-inline" method="post" action="{% url 'pencairanDana' %}">
                                       {% csrf_token %}
                                       <input type="submit" class="btn btn-dark" name="pencairan" value="Pencairan Dana">
+                                  </form>
                                 </td>
+
                               </tr>
                             </tbody>
                           </table>
+                          {% endfor %}
                     </div>
                   </div>
                   <div style="height: 26px"></div>

@@ -33,12 +33,107 @@
     <label>Nomor Rekening</label>
     <input type="number" class="form-control" placeholder="Masukkan nomor rekening" required>
   </div>
-  <div class="form-group">
-    <label>Jenis</label> <br>
-    <a class="btn btn-outline-dark" href="../register-user-individu" role="button">Individu</a>
-    <a class="btn btn-outline-dark" href="../register-user-organisasi" role="button">Organisasi</a>
+  <div class="form-check">
+    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+    <label class="form-check-label" for="flexRadioDefault1">
+      Individu
+    </label>
+  </div>
+  <div class="form-check">
+    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+    <label class="form-check-label" for="flexRadioDefault2">
+      Organisasi
+    </label>
+  </div>
+  <br>
+
+
+  {% comment %} individu {% endcomment %}
+  <div style="display: none;" id="individus">
+    <h4>Individu</h4>
+    <div class="form-group">
+      <label>NIK</label>
+      <input type="number" class="form-control" placeholder="Masukkan NIK" required>
+    </div>
+    <div class="form-group">
+      <label>Tanggal Lahir</label>
+      <input type="date" class="form-control" required>
+    </div>
+    <div class="form-group">
+      <label>Jenis Kelamin</label>
+      <input type="text" class="form-control" required>
+    </div>
+    {% comment %} <div class="form-group">
+      <label>Foto KTP</label>
+      <input type="file" class="form-control" id="customFile" />
+    </div> {% endcomment %}
+    <a class="btn btn-primary" href="../pencairan/profile" role="button">Register</a>
   </div>
 
+  
+
+{% comment %} Organisasi {% endcomment %}
+<br>
+  <div style="display: none;" id="organisasis">
+
+    <h4>Organisasi</h4>
+    <div class="form-group">
+      <label>Nama Organisasi</label>
+      <input type="text" class="form-control" placeholder="Masukkan Nama Organisasi" required>
+    </div>
+    <div class="form-group">
+      <label>Nomor Akta Pendirian</label>
+      <input type="number" class="form-control" placeholder="Masukkan Nomor Akta Pendirian" required>
+    </div>
+    <div class="form-group">
+      <label>Nomor Telepon Organisasi</label>
+      <input type="number" class="form-control" placeholder="Masukkan Nomor Telepon Organisasi" required>
+    </div>
+    <div class="form-group">
+      <label>Tahun Berdiri</label>
+      <input type="number" class="form-control" placeholder="Masukkan Tahun Berdiri" required>
+    </div>
+    <div class="form-group">
+      <label>Foto Akta Pendirian</label>
+      <input type="file" class="form-control" id="customFile" />
+    </div>
+  
+    <a class="btn btn-primary" href="#" role="button">Register</a>
+
+  </div>
+</div>
+
+
+
+
+
+
 </form>
+
+
+<script>
+  let individu = document.getElementById('flexRadioDefault1')
+  let organisasi = document.getElementById('flexRadioDefault2')
+  let penggunaIndi = document.getElementById('individus')
+  let penggunaOrg = document.getElementById('organisasis')
+
+
+
+  individu.onclick = function() { 
+    penggunaIndi.style.display = "inline"
+    penggunaOrg.style.display = "none"
+
+}
+
+organisasi.onclick = function() { 
+  penggunaIndi.style.display = "none"
+  penggunaOrg.style.display = "inline"
+}
+
+
+</script>
+
+
+
 
 {% endblock content %}
