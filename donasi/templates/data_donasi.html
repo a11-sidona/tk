@@ -15,16 +15,18 @@
     </tr>
   </thead>
   <tbody>
+    {% for donasi in list_donasi %}
     <tr>
-      <th scope="row">K-001</th>
-      <td>Ayo bantu Zulfahri menghadapi penyakit Demam Berdarahnya!</td>
-      <td>Kesehatan</td>
-      <td>Sukses</td>
+      <th scope="row">{{donasi.0}}</th>
+      <td>{{donasi.1}}</td>
+      <td>{{donasi.2}}</td>
+      <td>{{donasi.3}}</td>
       <td>
         <a href="../donasi/detail-donasi">[Detail]</a> <br/>
         <a href="#">[Lihat Bukti]</a>
       </td>
     </tr>
+    {% endfor %}
   </tbody>
 </table>
 {% endblock content %}
