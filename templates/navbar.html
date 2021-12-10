@@ -27,7 +27,7 @@
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav">
       <a class="nav-item nav-link {% if request.resolver_match.url_name == 'home' %} active{% endif %}" href="/">Home</a>
-
+      <a class="nav-item nav-link {% if request.resolver_match.url_name == 'list_pengguna' %} active{% endif %}" href="/admin-sidona/list-pengguna">List Pengguna</a>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Penggalangan Dana
@@ -35,12 +35,29 @@
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="{% url 'penggalangan_dana:daftar' %}">Daftar Penggalangan Dana</a>
           <a class="dropdown-item" href="{% url 'penggalangan_dana:daftar_admin' %}">Daftar Penggalangan Dana (Admin)</a>
-          <a class="dropdown-item" href="{% url 'penggalangan_dana:form_update' %}">Form Update</a>
+          <a class="dropdown-item" href="{% url 'penggalangan_dana:daftar_PD' %}">Daftar Penggalangan Dana (Penggalang Dana)</a>
+          <a class="dropdown-item" href="{% url 'penggalangan_dana:komorbid' %}">Kelola Komorbid</a>
+          <a class="dropdown-item" href="{% url 'penggalangan_dana:create_PD_category' %}">Buat Penggalangan Dana</a>
+          <a class="dropdown-item" href="/penggalangan/update?kategori=kesehatan">Form Update Penggalangan Dana (Kesehatan)</a>
+          <a class="dropdown-item" href="/penggalangan/update?kategori=rumah_ibadah">Form Update Penggalangan Dana (Rumah Ibadah)</a>
+          <a class="dropdown-item" href="/penggalangan/update">Form Update Penggalangan Dana (Lainnya)</a>
+          <a class="dropdown-item" href="/penggalangan/form_verifikasi">Form Verifikasi Penggalangan Dana</a>
+          <a class="dropdown-item" href="/penggalangan/detail">Detail Penggalangan Dana</a>
+          <a class="dropdown-item" href="/penggalangan/kategori">Kategori Penggalangan Dana</a>
+          <a class="dropdown-item" href="/penggalangan/kategori/tambah">Form Tambah Kategori</a>
+          <a class="dropdown-item" href="/penggalangan/kategori/update">Form Update Kategori</a>
         </div>
       </li>
-      <a class="nav-item nav-link" href="/pencairan/profile" id="profile">Profile</a>
-
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Donasi
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="/donasi">Data Donasi Penggalangan Dana</a>
+        </div>
       </li>
+      <a class="nav-item nav-link" href="/login">Login</a>
+      <a class="nav-item nav-link" href="/pencairan/profile" id="profile">Profile</a>
     </div>
   </div>
 </nav>

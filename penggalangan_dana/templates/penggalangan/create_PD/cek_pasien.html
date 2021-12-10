@@ -9,8 +9,11 @@
 <h2>CEK PASIEN YANG TERDAFTAR</h2>
 <form action="" method="post">
   {% csrf_token %}
+  {% if warning %}
+    <h2>Pasien Tidak Ditemukan!</h2>
+  {% endif %}
   <label for="NIK">NIK Pasien: </label>
-  <input type="text" id="NIK" name="NIK"><br>
+  <input type="text" id="NIK" name="NIK" required><br>
   <button type="submit"> Next </button>
 </form>
 {% endblock content %}

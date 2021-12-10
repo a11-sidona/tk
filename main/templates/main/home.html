@@ -6,7 +6,7 @@
 {% endblock meta %}
 
 {% block content %}
-  {% if nama %}
+  {% comment %} {% if nama %}
   nama anda: {{nama}}
   {% endif %}
   <form action="" method="post">
@@ -14,5 +14,5 @@
     masukkan nama:
     <input class="form-control" type="text" name="nama" id="nama" />
     <button type="submit">submit</button>
-  </form>
+  </form> {% endcomment %}
 {% endblock content %}

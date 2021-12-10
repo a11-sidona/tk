@@ -9,8 +9,11 @@
 <h2>CEK RUMAH IBADAH YANG TERDAFTAR</h2>
 <form action="" method = "post">
   {% csrf_token %}
+  {% if warning %}
+    <h2>Rumah Ibadah Tidak Ditemukan!</h2>
+  {% endif %}
   <label for="noSertif">Nomor Sertifikat Rumah Ibadah: </label>
-  <input type="text" id="No Sertif" name="noSertif"><br>
+  <input type="text" id="No Sertif" name="noSertif" required><br>
   <button type="submit"> Next </button>
 </form>
 {% endblock content %}

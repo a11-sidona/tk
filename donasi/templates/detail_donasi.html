@@ -1,0 +1,39 @@
+{% extends 'base.html' %} 
+{% load static %}
+
+{% block content %}
+
+<h1>Detail Donasi</h1>
+<form class="mt-4 border p-4" style="max-width: 640px;">
+  <div class="form-group">
+    <label>Email</label>
+    <input type="text" class="form-control" placeholder="hahahha@gmail.com" disabled>
+  </div>
+  <div class="form-group">
+    <label>Timestamp</label>
+    <input type="text" class="form-control" placeholder="2021-11-27   14:32:50" disabled>
+  </div>
+  <div class="form-group">
+    <label>Judul Penggalangan Dana</label>
+    <input type="text" class="form-control" placeholder="Ayo bantu Zulfahri menghadapi penyakit Demam Berdarahnya!" disabled>
+  </div>
+  <div class="form-group">
+    <label>Nominal (Rupiah)</label>
+    <input type="text" class="form-control" placeholder="1.000.000" disabled>
+  </div>
+  <div class="form-group">
+    <label for="FormControlSelect">Metode Bayar</label>
+    <input type="text" class="form-control" placeholder="DonaPay" disabled>
+  </div>
+  <div class="form-group">
+    <label for="FormControlSelect2">Status Anonim</label>
+    <input type="text" class="form-control" placeholder="Ya" disabled>
+  </div>
+  <div class="form-group">
+    <label for="FormControlTextarea">Doa</label>
+    <textarea class="form-control" id="FormControlTextarea" rows="3" placeholder="amin" disabled></textarea>
+  </div>
+  <button href="#" class="btn btn-primary">Cancel</button>
+</form>
+
+{% endblock content %}
