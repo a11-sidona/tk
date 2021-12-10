@@ -1,4 +1,5 @@
 from django.http import response, JsonResponse
+from django.core.exceptions import SuspiciousOperation
 from django.shortcuts import render, redirect
 from django.db import connection
 from penggalangan_dana.utils import namedtuple_fetch_all
@@ -40,8 +41,47 @@ def daftar_penggalangan_PD(request):
 
 
 def form_update(request):
-    kategori = request.GET.get("kategori", "lainnya")
-    response = {"kategori": kategori}
+    id = request.GET.get("id", "")
+    if not id:
+        raise SuspiciousOperation("No ID Provided")
+    cursor_p = connection.cursor()
+    query = (
+        """
+        SELECT pd.id, pd.judul, pd.deskripsi, pd.kota, pd.provinsi, pd.tanggal_aktif_akhir,
+            pd.jumlah_dibutuhkan, pd.status_verifikasi, k.nama_kategori
+        FROM penggalangan_dana_pd pd, kategori_pd k
+        WHERE id_kategori in (
+            SELECT id
+            FROM kategori_pd
+            WHERE id = pd.id_kategori
+        )  AND pd.id = '{}';
+        """.format(id)
+    )
+    cursor_p.execute(query)
+    pd = namedtuple_fetch_all(cursor_p)
+
+    response = {
+        "pd": pd[0],
+    }
+
+    if getattr(pd[0], 'nama_kategori') == 'kesehatan':
+        query = (
+            """
+            SELECT p.nik, p.nama, pdk.penyakit, k.komorbid
+            FROM pd_kesehatan pdk, pasien p, komorbid k, penggalangan_dana_pd pdpd
+            WHERE k.idpd in (
+                SELECT idpd
+                FROM komorbid
+                WHERE komorbid.idpd = pdpd.id
+            ) AND pdk.idpd = '{}' AND pdk.idpasien = p.nik
+            """.format(getattr(pd[0], 'id'), getattr)
+        )
+        cursor_p.execute(query)
+        pdk = namedtuple_fetch_all(cursor_p)
+        response["pdk"] = pdk
+    elif getattr(pd[0], 'nama_kategori') == 'rumah_ibadah':
+        pass
+
     return render(request, "penggalangan/form_update.html", response)
 
 
