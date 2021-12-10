@@ -104,7 +104,23 @@ def list_kategori(request):
 
 
 def form_update_kategori(request):
-    return render(request, "penggalangan/kategori/form_update.html")
+    response = {}
+
+    if request.method == 'POST':
+        id = request.POST["id"]
+        nama = request.POST["nama"]
+        with connection.cursor() as cursor:
+            cursor.execute("UPDATE kategori_pd SET nama_kategori = '{nama}' WHERE id = '{id}';".format(nama=nama, id=id))
+            response["message"] = "Sukses mengupdate kategori!"
+
+    id = request.GET.get("id", "")
+    if not id: return redirect('/penggalangan/kategori/')
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT * FROM kategori_pd WHERE id = '{}'".format(id))
+        result = namedtuple_fetch_all(cursor)
+        response["k"] = result[0]
+
+    return render(request, "penggalangan/kategori/form_update.html", response)
 
 
 def detail_penggalangan(request):
