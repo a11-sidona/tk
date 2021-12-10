@@ -36,6 +36,7 @@ def login(request):
             cursor.execute("select * from admin where email=%s and password=%s",[email,password])
 
             row = cursor.fetchall() # ini dibalikin dalem bentuk multi-dimensional array
+            print(row)
             if (len(row) != 0): # Berhasil login
                 print("test")
                 # contohnya buat set session.username menjadi row pertama (index ke 0) kolom pertama (index ke 0)
@@ -54,6 +55,31 @@ def login(request):
                         request.session["username"] = row[0][0] 
                         request.session["password"] = row[0][1] 
                         request.session["peran"] = "penggalang_dana"
+                        
+                        # cursor.execute("select email from individu")
+                        # indi = cursor.fetchall()
+                        
+                        # cursor.execute("select email from organisasi")
+                        # orga = cursor.fetchall()
+                        
+                        
+                        # for i in indi:
+                        #     print(i)
+                        #     if request.session.get("username") == i:
+                                
+                        #         request.session["role"] = "individu"
+                                
+                        # for k in orga:
+                        #     if request.session.get("username") == k:
+                        #         request.session["role"] = "organisasi"        
+                           
+                        
+                        
+                        # # print(orga)
+                        # # print(request.session.get("username"))
+                        # print(request.session.get("username"))
+                        # print(request.session.get("role"))
+
                         return redirect("main:home")
                 
                 else: # Gagal login
