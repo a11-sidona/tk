@@ -99,6 +99,10 @@ def register_admin(request):
     return render(request, "login/register_admin.html")
 
 def register_user(request):
+    
+    
+    
+    
     return render(request, "login/register_user.html")
 
 def register_user_individu(request):
@@ -111,9 +115,7 @@ def list_pengguna_terdaftar(request):
     return render(request, "admin/list_pengguna.html")
 
 def logout(request):
-    # Hilangkan semua dari session
-    request.session.pop("username", None)
-    request.session.pop("password", None)
-    request.session.pop("peran", None)
-
-    return redirect("main:home")
+    if "username" in request.session:
+        request.session.flush()
+        return redirect('/login')
+    return redirect('login/register.html')
