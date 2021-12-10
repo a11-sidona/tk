@@ -13,7 +13,7 @@ urlpatterns = [
     path("detail", views.detail_penggalangan),
     path("komorbid", views.komorbid, name="komorbid"),
     path("komorbid/tambah", views.komorbid_tambah, name="komorbid_tambah"),
-    path("komorbid/update", views.komorbid_update, name="komorbid_update"),
+    path("komorbid/update/<str:id>/", views.komorbid_update, name="komorbid_update"),
     path("create", views.create_PD_category, name="create_PD_category"),
     path("create/cekpasien", views.cek_pasien, name="cek_pasien"),
     path("create/cekrumah", views.cek_rumah, name="cek_rumah"),

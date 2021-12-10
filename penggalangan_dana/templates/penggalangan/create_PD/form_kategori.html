@@ -22,23 +22,23 @@
 <form action="", method="post", onsubmit="submitForm(event)">
   {% csrf_token %}
   <select name="category", id="category">
-    <option value="Kesehatan">Kesehatan</option>
-    <option value="Rumah Ibadah">Rumah Ibadah</option>
-    <option value="Global Warming">Global Warming</option>
+    {% for k in kategori%}
+      <option>{{k.0}}</option>
+    {% endfor %}
   </select>
   <button type="submit"> Next </button>
 </form>
 <script type="text/JavaScript">
   function submitForm(event){
     var category = document.getElementById("category").value;
-    if(category === "Kesehatan"){
+    if(category === "kesehatan"){
       event.preventDefault();
       if(document.getElementById("RumahIbadahChoice").style.display==="block"){
         document.getElementById("RumahIbadahChoice").style.display = "None";
       }
       document.getElementById("KesehatanChoice").style.display = "block";
     }
-    else if(category ==="Rumah Ibadah"){
+    else if(category ==="rumah ibadah"){
       event.preventDefault();
       if(document.getElementById("KesehatanChoice").style.display==="block"){
         document.getElementById("KesehatanChoice").style.display = "None";
