@@ -12,35 +12,35 @@
   <h4>Informasi Umum Penggalangan Dana</h4>
   <div class="form-group">
     <label>ID Penggalangan Dana</label>
-    <input type="text" class="form-control" value ="{{id}}"readonly>
+    <input type="text" class="form-control" name="id"value ="{{id}}"readonly>
   </div>
   <div class="form-group">
     <label>Email</label>
-    <input type="email" class="form-control" placeholder="user@sidona.com" readonly>
+    <input type="email" class="form-control" value="{{email}}" readonly>
   </div>
   <div class="form-group">
     <label>Judul</label>
-    <input type="text" class="form-control" placeholder="Masukkan judul" required>
+    <input type="text" class="form-control" name="judul" placeholder="Masukkan judul" required>
   </div>
   <div class="form-group">
     <label>Deskripsi</label>
-    <input type="text" class="form-control" placeholder="Masukkan deskripsi" required>
+    <input type="text" class="form-control" name="deskripsi" placeholder="Masukkan deskripsi" required>
   </div>
   <div class="form-group">
     <label>Kota</label>
-    <input type="text" class="form-control" placeholder="Masukkan kota" required>
+    <input type="text" class="form-control" name="kota" placeholder="Masukkan kota" required>
   </div>
   <div class="form-group">
     <label>Provinsi</label>
-    <input type="text" class="form-control" placeholder="Masukkan provinsi" required>
+    <input type="text" class="form-control" name="provinsi" placeholder="Masukkan provinsi" required>
   </div>
   <div class="form-group">
     <label>Deadline Penggalangan Dana</label>
-    <input type="text" class="form-control" placeholder="Masukkan Deadline Penggalangan Dana" required>
+    <input type="text" class="form-control" name="deadline" placeholder="Masukkan Deadline Penggalangan Dana" required>
   </div>
   <div class="form-group">
     <label>Jumlah Target Dana (Rupiah)</label>
-    <input type="text" class="form-control" placeholder="Masukkan Target Dana" required>
+    <input type="text" class="form-control" name="target" placeholder="Masukkan Target Dana" required>
   </div>
   <hr />
   <h4>Informasi Tambahan Penggalangan Dana</h4>
@@ -79,7 +79,7 @@
   {% endif %}
   <div class="form-group">
     <label>Berkas Penggalangan Dana:</label>
-    <input type="text" class="form-control" name="berkas" placeholder="Masukkan Link Berkas" required>
+    <input type="text" class="form-control" name="link" placeholder="Masukkan Link Berkas" required>
   </div>
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>

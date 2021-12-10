@@ -1,6 +1,9 @@
 from django.http import response, JsonResponse
 from django.shortcuts import render, redirect
 from django.db import connection
+import penggalangan_dana
+import datetime
+from random import randrange
 from penggalangan_dana.utils import namedtuple_fetch_all
 
 
@@ -24,11 +27,18 @@ def daftar_penggalangan_admin(request):
 
 def daftar_penggalangan_PD(request):
     with connection.cursor() as cursor:
-        cursor.execute("select pd.id, pd.judul, pd.kota, pd.provinsi, pd.tanggal_aktif_awal, pd.tanggal_aktif_akhir, pd.sisa_hari, pd.jumlah_dibutuhkan, k.nama_kategori, pd.status_verifikasi, p.jumlah_pd, p.jumlah_pd_aktif from penggalangan_dana_pd pd, penggalang_dana p, kategori_pd k where pd.email_user = p.email and pd.id_kategori=k.id and pd.email_user = %s",[request.session.get("username")])
+        cursor.execute("select pd.id, pd.judul, pd.kota, pd.provinsi, pd.tanggal_aktif_awal, pd.tanggal_aktif_akhir, pd.sisa_hari, pd.jumlah_dibutuhkan, k.nama_kategori, pd.status_verifikasi from penggalangan_dana_pd pd, penggalang_dana p, kategori_pd k where pd.email_user = p.email and pd.id_kategori=k.id and pd.email_user = %s",[request.session.get("username")])
         result = namedtuple_fetch_all(cursor)
+        cursor.execute("select jumlah_pd from penggalang_dana where email=%s",[request.session.get("username")])
+        jumlah_pd = cursor.fetchall()[0][0]
+        cursor.execute("select jumlah_pd_aktif from penggalang_dana where email=%s",[request.session.get("username")])
+        jumlah_pd_aktif = cursor.fetchall()[0][0]
         response ={
-            "hasil":result
+            "hasil":result,
+            "jumlah":jumlah_pd,
+            "aktif":jumlah_pd_aktif
         }
+        print(result)
     return render(request, "penggalangan/admin/daftar_PD_pribadi.html", response)
 
 
@@ -59,6 +69,15 @@ def detail_penggalangan(request):
     response = {"id": id}
     return render(request, "penggalangan/detail_penggalangan.html", response)
 
+def delete(request, id):
+    with connection.cursor() as cursor:
+        cursor.execute("delete from penggalangan_dana_pd where id=%s",[id])
+    return redirect("penggalangan_dana:daftar_PD")
+
+def deleteKomorbid(request, id):
+    with connection.cursor() as cursor:
+        cursor.execute("delete from komorbid where idPD=%s",[id])
+    return redirect("penggalangan_dana:komorbid")
 
 def create_PD_category(request):
     with connection.cursor() as cursor:
@@ -71,6 +90,8 @@ def create_PD_category(request):
             category = request.POST["category"]
 
             response = {}
+            response["email"]=request.session["username"]
+            response["id"] = increment_id_pd(request,category)
             response["category"] = category
             return render(
                 request, "penggalangan/create_PD/form_penggalangan_dana.html", response
@@ -78,11 +99,20 @@ def create_PD_category(request):
 
     return render(request, "penggalangan/create_PD/form_kategori.html", response)
 
-def increment_id_pd():
+def increment_id_pd(request, kategori):
     with connection.cursor() as cursor:
-        cursor.execute("select id from sidona.penggalangan_dana_pd order by id desc limit 1")
+        user = request.session["username"]
+        cursor.execute("select id from penggalangan_dana_pd where email_user=%s order by id desc limit 1",[user])
         newID = cursor.fetchall()
-        newID= str(int(newID[0][0])+1)
+        if(len(newID)>0):
+            if(newID[0][0][1]!="-"):
+                newID= str(int(newID[0][0])+1)
+                newID = kategori[0]+"-"+newID
+            else:
+                newID= str(int(newID[0][0][2:-1])+1)
+                newID = kategori[0]+"-"+newID
+        else:
+            newID = kategori[0]+"-001"
     return newID
 
 
@@ -98,11 +128,12 @@ def cek_pasien(request):
                 }
                 return render(request, "penggalangan/create_PD/cek_pasien.html",response)
             response = {}
+            response["email"]=request.session["username"]
             cursor.execute("select nama from sidona.pasien where nik = %s", [nik])
             response["category"] = "Kesehatan"
             response["NIK"] = nik
             response["nama"] = cursor.fetchall()
-            response["id"] = increment_id_pd()
+            response["id"] = increment_id_pd(request,"Kesehatan")
             return render(request, "penggalangan/create_PD/form_penggalangan_dana.html", response)
 
     return render(request, "penggalangan/create_PD/cek_pasien.html")
@@ -120,11 +151,12 @@ def cek_rumah(request):
                 }
                 return render(request, "penggalangan/create_PD/cek_rumah_ibadah.html",response)
             response = {}
+            response["email"]=request.session["username"]
             response["category"] = "Rumah Ibadah"
             response["noSertif"] = noSertif
             cursor.execute("select nama from sidona.kategori_aktivitas_pd_rumah_ibadah")
             response["kategori"] = cursor.fetchall()
-            response["id"] = increment_id_pd()
+            response["id"] = increment_id_pd(request, "Rumah Ibadah")
             return render(request, "penggalangan/create_PD/form_penggalangan_dana.html", response)
 
     return render(request, "penggalangan/create_PD/cek_rumah_ibadah.html")
@@ -141,10 +173,11 @@ def daftar_pasien(request):
             cursor.execute("insert into pasien values (%s,%s,%s,%s,%s)",[nik, nama, tanggal, alamat, pekerjaan])
             cursor.execute("select nama from sidona.pasien where nik = %s", [nik])
             response = {}
+            response["email"]=request.session["username"]
             response["category"] = "Kesehatan"
             response["NIK"] = nik
             response["nama"] = cursor.fetchall()
-            response["id"] = increment_id_pd()
+            response["id"] = increment_id_pd(request,"Kesehatan")
             return render(request, "penggalangan/create_PD/form_penggalangan_dana.html", response)
 
     return render(request, "penggalangan/create_PD/form_pasien.html")
@@ -158,12 +191,13 @@ def daftar_rumah(request):
             alamat = request.POST["Alamat"]
             jenis = request.POST["Jenis"]
             response = {}
+            response["email"]=request.session["username"]
             response["category"] = "Rumah Ibadah"
             response["noSertif"] = noSertif
             cursor.execute("select nama from sidona.kategori_aktivitas_pd_rumah_ibadah")
-            response["kategori"] = cursor.fetchall
+            response["kategori"] = cursor.fetchall()
             cursor.execute("insert into rumah_ibadah values (%s,%s,%s,%s)",[noSertif, nama, alamat, jenis])
-            response["id"] = increment_id_pd()
+            response["id"] = increment_id_pd(request, "Rumah Ibadah")
             return render(request, "penggalangan/create_PD/form_penggalangan_dana.html", response)
 
     return render(request, "penggalangan/create_PD/form_rumah_ibadah.html")
@@ -172,29 +206,38 @@ def daftar_rumah(request):
 def form_PD(request):
     with connection.cursor() as cursor:
         response = {}
-        response["id"] = increment_id_pd()
+        email = request.session["username"]
+        response["email"] = email
         if request.method == "POST":
-            category = request.POST["category"]
-            if category == "Kesehatan":
+            id = request.POST["id"]
+            judul = request.POST["judul"]
+            deskripsi = request.POST["deskripsi"]
+            kota = request.POST["kota"]
+            provinsi = request.POST["provinsi"]
+            deadline = request.POST["deadline"]
+            target = request.POST["target"]
+            cursor.execute("select email from admin")
+            admin = cursor.fetchall()
+            irand = randrange(0, len(admin))
+            adminEmail = admin[irand][0]
+            today = datetime.datetime.now().date()
+            category = request.POST["category"].lower()
+            link = request.POST["link"]
+            cursor.execute("select id from kategori_pd where nama_kategori=%s",[category])
+            categoryID = cursor.fetchall()[0][0]
+            cursor.execute(f"insert into penggalangan_dana_pd values('{id}','{judul}','{deskripsi}','{kota}','{provinsi}','{link}','Belum verifikasi',CAST('{today}' AS DATE),null,CAST('{deadline}' AS DATE),{target},null,null,null,'{email}','{adminEmail}','{categoryID}')")
+            if category == "kesehatan":
                 nik = request.POST["NIK"]
-                response = {}
-                response["category"] = "Kesehatan"
-                response["NIK"] = nik
-                return render(
-                    request, "penggalangan/admin/daftar_PD_pribadi.html", response
-                )
-            elif category == "Rumah Ibadah":
+                penyakit = request.POST["penyakit"]
+                cursor.execute(f"insert into pd_kesehatan values('{id}','{penyakit}','{nik}')")
+            elif category == "rumah ibadah":
                 noSertif = request.POST["noSertif"]
-                response = {}
-                response["category"] = "Rumah Ibadah"
-                response["noSertif"] = noSertif
-                return render(
-                    request, "penggalangan/admin/daftar_PD_pribadi.html", response
-                )
-            else:
-                response = {}
-                response["category"] = category
-                return render(request, "penggalangan/admin/daftar_PD_pribadi.html", response)
+                aktivitas = request.POST["select"]
+                cursor.execute(f"select id from kategori_aktivitas_pd_rumah_ibadah where nama='{aktivitas}'")
+                idaktiv = cursor.fetchall()[0][0]
+                cursor.execute(f"insert into pd_rumah_ibadah values('{id}','{noSertif}','{idaktiv}')")
+            
+            return redirect("penggalangan_dana:daftar_PD")
     return render(request, "penggalangan/create_PD/form_penggalangan_dana.html", response)
 
 

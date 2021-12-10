@@ -61,18 +61,18 @@
         {{d.status_verifikasi}}
       </td>
       <td>
-        <a href="#">[Detail]</a>
-        {% if pd.status_verifikasi == 'Belum verifikasi' %}
+        <a href="detail/{{d.id}}">[Detail]</a>
+        {% if d.status_verifikasi == 'Belum verifikasi' %}
         <br />
-        <a href="#">[Delete]</a>
+          <a href="Delete/{{d.id}}">[Delete]</a>
         {% else %}
-        <td><a href="#">[Cairkan]</a></td>
+          <a href="#">[Cairkan]</a></td>
         {% endif %}
       </td>
     </tr>
     {% endfor %}
   </tbody>
 </table>
-<h5>Jumlah Penggalangan Dana: {{hasil.jumlah_pd}}</h5>
-<h5>Jumlah Penggalangan Dana Aktif: {{hasil.jumlah_pd_aktif}}</h5>
+<h5>Jumlah Penggalangan Dana: {{jumlah}}</h5>
+<h5>Jumlah Penggalangan Dana Aktif: {{aktif}}</h5>
 {% endblock content %}
