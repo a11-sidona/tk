@@ -101,8 +101,16 @@ WSGI_APPLICATION = "sidona.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        # "NAME": BASE_DIR / "db.sqlite3",
+        "NAME": 'd9kt748g0jsnf9',
+        "PASSWORD": '206d9410376d8ea589a93855e81bd0dc66a9ff7c775c9b7a05402dc2cd3b3813',
+        "USER": 'flijkjssbvbpwt',
+        "HOST": 'ec2-18-214-176-16.compute-1.amazonaws.com',
+        "PORT": '5432',
+        "OPTIONS":{
+            'options': '-c search_path=sidona'
+        },
     }
 }
 
