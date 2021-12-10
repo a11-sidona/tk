@@ -6,7 +6,7 @@
 {% endblock meta %}
 
 {% block content %}
-<h1>Halaman Daftar Penggalangan Dana (POV Penggalangan Dana)</h1>
+<h1>Halaman Daftar Penggalangan Dana (POV Penggalang Dana)</h1>
 <table
   class="table table-striped table-sm table-responsive"
   style="font-size: small"
@@ -20,45 +20,59 @@
       <th scope="col">Tanggal Aktif Awal</th>
       <th scope="col">Deadline</th>
       <th scope="col">Sisa Hari</th>
-      <th scope="col">Target Dana</th>
+      <th scope="col" colspan="2">Target Dana</th>
       <th scope="col">Kategori</th>
       <th scope="col">Status Verifikasi</th>
       <th scope="col">Action</th>
     </tr>
   </thead>
   <tbody>
+    {% for d in hasil %}
     <tr>
-      <th scope="row">K-001</th>
-      <td>Ayo bantu Zulfahri menghadapi penyakit Demam Berdarahnya!</td>
-      <td>Bandung</td>
-      <td>Jawa Barat</td>
-      <td>15 November 2021</td>
-      <td>7 Desember 2021</td>
-      <td>20 hari</td>
-      <td>Rp 1.000.000,-</td>
-      <td name="category">Kesehatan</td>
-      <td>Sudah Terverifikasi</td>
-      <td><a href="#">[Detail]</a></td>
-      <td><a href="#">[Cairkan]</a></td>
-    </tr>
-    <tr>
-      <th scope="row">R-001</th>
-      <td>Bangun masjid untuk Desa Maju</td>
-      <td>Jakarta</td>
-      <td>DKI Jakarta</td>
-      <td></td>
-      <td>10 Desember 2021</td>
-      <td></td>
-      <td>Rp 10.000.000,-</td>
-      <td>Rumah Ibadah</td>
-      <td>Belum Terverifikasi</td>
+      <th scope="row">{{d.id}}</th>
+      <td style="max-width: 20vw;">{{d.judul}}</td>
+      <td>{{d.kota}}</td>
+      <td>{{d.provinsi}}</td>
       <td>
-        <a href="#">[Detail]</a> <br />
+        {% if d.tanggal_aktif_awal %}
+          {{d.tanggal_aktif_awal}}
+        {% endif %}
+      </td>
+      <td>
+        {% if d.tanggal_aktif_akhir %}
+          {{d.tanggal_aktif_akhir}}
+        {% endif %}
+      </td>
+      <td class="text-center">
+        {% if d.sisa_hari %}
+          {{d.sisa_hari}}
+        {% endif %}
+      </td>
+      <td style="font-family: monospace;">Rp</td>
+      <td class="text-right" style="white-space:nowrap; font-family: monospace;">{{d.jumlah_dibutuhkan|floatformat:"0"}}</td>
+      <td>{{d.nama_kategori}}</td>
+      <td
+      {% if d.status_verifikasi == 'Belum verifikasi' %}
+        style="background-color: #FCA5A5"
+      {% else %}
+        style="background-color: #6EE7B7"
+      {% endif %}
+      >
+        {{d.status_verifikasi}}
+      </td>
+      <td>
+        <a href="#">[Detail]</a>
+        {% if pd.status_verifikasi == 'Belum verifikasi' %}
+        <br />
         <a href="#">[Delete]</a>
+        {% else %}
+        <td><a href="#">[Cairkan]</a></td>
+        {% endif %}
       </td>
     </tr>
+    {% endfor %}
   </tbody>
 </table>
-<h5>Jumlah Penggalangan Dana: 2</h5>
-<h5>Jumlah Penggalangan Dana Aktif: 1</h5>
+<h5>Jumlah Penggalangan Dana: {{hasil.jumlah_pd}}</h5>
+<h5>Jumlah Penggalangan Dana Aktif: {{hasil.jumlah_pd_aktif}}</h5>
 {% endblock content %}

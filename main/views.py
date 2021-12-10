@@ -113,3 +113,9 @@ def register_user_organisasi(request):
 
 def list_pengguna_terdaftar(request):
     return render(request, "admin/list_pengguna.html")
+
+def logout(request):
+    if "username" in request.session:
+        request.session.flush()
+        return redirect('/login')
+    return redirect('login/register.html')
