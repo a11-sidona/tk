@@ -1,6 +1,7 @@
 from django.http import response, JsonResponse
 from django.shortcuts import render, redirect
 from django.db import connection
+from penggalangan_dana.utils import namedtuple_fetch_all
 
 cursor = connection.cursor()
 
