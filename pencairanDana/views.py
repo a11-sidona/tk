@@ -10,9 +10,12 @@ from django.contrib import messages
 
 def index(request):
      with connection.cursor() as cursor:
+         
+        print({request.session.get("username")})
+         
         cursor.execute(f""" 
                 SELECT * FROM PENGGALANG_DANA
-                WHERE email = 'pwhiskin1@360.cn'
+                WHERE email = '{request.session.get("username")}'
                         """)
          
          
@@ -21,13 +24,21 @@ def index(request):
         
         cursor.execute(f""" 
                 SELECT * FROM PENGGALANGAN_DANA_PD pd JOIN KATEGORI_PD k
-                ON pd.email_user = 'pwhiskin1@360.cn' AND pd.id_kategori = k.id
+                ON pd.email_user = '{request.session.get("username")}' AND pd.id_kategori = k.id
                         """)
         
         penggalanganDana = cursor.fetchall()
         print(penggalanganDana)
+        
+        cursor.execute(f""" 
+                SELECT pd.id, pd.judul, k.nama_kategori FROM PENGGALANGAN_DANA_PD pd JOIN  wishlist_donasi w
+                ON pd.id = w.idPd AND w.email = '{request.session.get("username")}' JOIN KATEGORI_PD k
+                ON pd.id_kategori = k.id
+                        """)
+        
+        wishlist = cursor.fetchall()
     
-        return render(request, 'profilePengguna.html', {'penggalangDana':penggalangDana, 'penggalanganDana':penggalanganDana})
+        return render(request, 'profilePengguna.html', {'penggalangDana':penggalangDana, 'penggalanganDana':penggalanganDana, 'wishlist':wishlist})
 
 def pencairanDana(request):
     with connection.cursor() as cursor:
@@ -56,7 +67,7 @@ def pencairanDana(request):
         else:
             cursor.execute(f""" 
                     SELECT p.saldo_dona_pay, pd.judul, pd.id FROM PENGGALANG_DANA p JOIN PENGGALANGAN_DANA_PD pd
-                    ON email LIKE 'pwhiskin1@360.cn' and p.email = pd.email_user
+                    ON email LIKE '{request.session.get("username")}' and p.email = pd.email_user
                             """)
             penggalangDana = cursor.fetchall()
             print(penggalangDana)
@@ -134,7 +145,7 @@ def cairDana(request):
                 
                 cursor.execute(f""" 
                         SELECT p.saldo_dona_pay, pd.judul, pd.id FROM PENGGALANG_DANA p JOIN PENGGALANGAN_DANA_PD pd
-                        ON email LIKE 'pwhiskin1@360.cn' and p.email = pd.email_user
+                        ON email LIKE '{request.session.get("username")}' and p.email = pd.email_user
                                 """)
                 penggalangDana = cursor.fetchall()
             
@@ -145,7 +156,7 @@ def cairDana(request):
                 messages.warning(request,"Saldo DonaPay mu kurang, pastikan saldo mencukupi nominal pencairan dana")
                 cursor.execute(f""" 
                         SELECT p.saldo_dona_pay, pd.judul, pd.id FROM PENGGALANG_DANA p JOIN PENGGALANGAN_DANA_PD pd
-                        ON email LIKE 'pwhiskin1@360.cn' and p.email = pd.email_user
+                        ON email LIKE '{request.session.get("username")}' and p.email = pd.email_user
                                 """)
                 penggalangDana = cursor.fetchall()
                 return render(request, 'formPencairan.html', {'penggalangDana':penggalangDana})
@@ -166,18 +177,24 @@ def cairDana(request):
 
 def detailPenggalangan(request):
     with connection.cursor() as cursor:
+        # cursor.execute(f""" 
+        #         SELECT * FROM PENGGALANGAN_DANA_PD pd JOIN KATEGORI_PD k
+        #         ON pd.email_user = '{request.session.get("username")}' AND pd.id_kategori = k.id
+        #                 """)
+        
         cursor.execute(f""" 
                 SELECT * FROM PENGGALANGAN_DANA_PD pd JOIN KATEGORI_PD k
-                ON pd.email_user = 'pwhiskin1@360.cn' AND pd.id_kategori = k.id
+                ON pd.email_user = '{request.session.get("username")}' AND pd.id_kategori = k.id
                         """)
         
         penggalanganDana = cursor.fetchall()
+        print(request.session.get("username"))
         print(penggalanganDana)
         
         cursor.execute(f""" 
                 SELECT pd.jumlah_terkumpul,p.nik , p.nama, pk.penyakit, c.komorbid
                 FROM PENGGALANGAN_DANA_PD pd JOIN PD_KESEHATAN pk
-                ON pd.id = '770600412' AND pd.id = pk.idPD JOIN PASIEN p
+                ON pd.id = '{penggalanganDana[0][0]}' AND pd.id = pk.idPD JOIN PASIEN p
                 ON pk.idPasien = p.nik JOIN KOMORBID c
                 ON pd.id = c.idPD
                         """)
@@ -188,7 +205,7 @@ def detailPenggalangan(request):
         cursor.execute(f""" 
                 SELECT pd.jumlah_terkumpul, r.nosertifikat, kr.nama
                 FROM PENGGALANGAN_DANA_PD pd JOIN PD_RUMAH_IBADAH pr
-                ON pd.id = '770600413' AND pd.id = pr.idPD JOIN RUMAH_IBADAH r
+                ON pd.id = '{penggalanganDana[0][0]}' AND pd.id = pr.idPD JOIN RUMAH_IBADAH r
                 ON pr.idRumahIbadah = r.nosertifikat JOIN KATEGORI_AKTIVITAS_PD_RUMAH_IBADAH kr
                 ON pr.idAktivitas = kr.id
                         """)
@@ -198,7 +215,7 @@ def detailPenggalangan(request):
         cursor.execute(f""" 
                 SELECT *
                 FROM RIWAYAT_PENGGUNAAN_DANA
-                WHERE idpd = '770600413'
+                WHERE idpd = '{penggalanganDana[0][0]}'
                         """)
         
         riwayat = cursor.fetchall()
