@@ -1,4 +1,5 @@
 from django.http import response, JsonResponse
+from django.core.exceptions import SuspiciousOperation
 from django.shortcuts import render, redirect
 from django.db import connection
 import penggalangan_dana
@@ -7,8 +8,17 @@ from random import randrange
 from penggalangan_dana.utils import namedtuple_fetch_all
 
 
+
 def daftar_penggalangan(request):
-    return render(request, "penggalangan/daftar_penggalangan.html")
+    cursor_p = connection.cursor()
+    query = """
+            SELECT pd.id, judul, kota, provinsi, tanggal_aktif_akhir, sisa_hari, jumlah_dibutuhkan, nama_kategori
+            FROM sidona.penggalangan_dana_pd pd, sidona.kategori_pd k
+            WHERE pd.id_kategori = k.id AND status_verifikasi = 'Terverifikasi' AND sisa_hari > 0;
+            """
+    cursor_p.execute(query)
+    pds = namedtuple_fetch_all(cursor_p)
+    return render(request, "penggalangan/daftar_penggalangan.html", {"pds": pds})
 
 
 def daftar_penggalangan_admin(request):
@@ -20,9 +30,7 @@ def daftar_penggalangan_admin(request):
             """
     cursor_p.execute(query)
     pds = namedtuple_fetch_all(cursor_p)
-    return render(
-        request, "penggalangan/admin/daftar_penggalangan.html", {"pds": pds}
-    )
+    return render(request, "penggalangan/admin/daftar_penggalangan.html", {"pds": pds})
 
 
 def daftar_penggalangan_PD(request):
@@ -43,8 +51,47 @@ def daftar_penggalangan_PD(request):
 
 
 def form_update(request):
-    kategori = request.GET.get("kategori", "lainnya")
-    response = {"kategori": kategori}
+    id = request.GET.get("id", "")
+    if not id:
+        raise SuspiciousOperation("No ID Provided")
+    cursor_p = connection.cursor()
+    query = (
+        """
+        SELECT pd.id, pd.judul, pd.deskripsi, pd.kota, pd.provinsi, pd.tanggal_aktif_akhir,
+            pd.jumlah_dibutuhkan, pd.status_verifikasi, k.nama_kategori
+        FROM penggalangan_dana_pd pd, kategori_pd k
+        WHERE id_kategori in (
+            SELECT id
+            FROM kategori_pd
+            WHERE id = pd.id_kategori
+        )  AND pd.id = '{}';
+        """.format(id)
+    )
+    cursor_p.execute(query)
+    pd = namedtuple_fetch_all(cursor_p)
+
+    response = {
+        "pd": pd[0],
+    }
+
+    if getattr(pd[0], 'nama_kategori') == 'kesehatan':
+        query = (
+            """
+            SELECT p.nik, p.nama, pdk.penyakit, k.komorbid
+            FROM pd_kesehatan pdk, pasien p, komorbid k, penggalangan_dana_pd pdpd
+            WHERE k.idpd in (
+                SELECT idpd
+                FROM komorbid
+                WHERE komorbid.idpd = pdpd.id
+            ) AND pdk.idpd = '{}' AND pdk.idpasien = p.nik
+            """.format(getattr(pd[0], 'id'), getattr)
+        )
+        cursor_p.execute(query)
+        pdk = namedtuple_fetch_all(cursor_p)
+        response["pdk"] = pdk
+    elif getattr(pd[0], 'nama_kategori') == 'rumah_ibadah':
+        pass
+
     return render(request, "penggalangan/form_update.html", response)
 
 
@@ -57,11 +104,33 @@ def form_tambah_kategori(request):
 
 
 def list_kategori(request):
-    return render(request, "penggalangan/kategori/list.html")
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT * FROM kategori_pd")
+        result = namedtuple_fetch_all(cursor)
+        response ={
+            "kategoris": result
+        }
+    return render(request, "penggalangan/kategori/list.html", response)
 
 
 def form_update_kategori(request):
-    return render(request, "penggalangan/kategori/form_update.html")
+    response = {}
+
+    if request.method == 'POST':
+        id = request.POST["id"]
+        nama = request.POST["nama"]
+        with connection.cursor() as cursor:
+            cursor.execute("UPDATE kategori_pd SET nama_kategori = '{nama}' WHERE id = '{id}';".format(nama=nama, id=id))
+            response["message"] = "Sukses mengupdate kategori!"
+
+    id = request.GET.get("id", "")
+    if not id: return redirect('/penggalangan/kategori/')
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT * FROM kategori_pd WHERE id = '{}'".format(id))
+        result = namedtuple_fetch_all(cursor)
+        response["k"] = result[0]
+
+    return render(request, "penggalangan/kategori/form_update.html", response)
 
 
 def detail_penggalangan(request):

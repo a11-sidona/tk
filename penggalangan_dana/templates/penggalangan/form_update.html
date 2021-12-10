@@ -6,89 +6,89 @@
   <h4>Informasi Umum Penggalangan Dana</h4>
   <div class="form-group">
     <label>ID Penggalangan Dana</label>
-    <input type="text" class="form-control" placeholder="K-001" readonly>
+    <input type="text" class="form-control" value="{{pd.id}}" readonly>
   </div>
   <div class="form-group">
     <label>Email</label>
-    <input type="email" class="form-control" placeholder="user@sidona.com" readonly>
+    <input type="email" class="form-control" value="user@sidona.com" readonly>
   </div>
   <div class="form-group">
     <label>Judul</label>
-    <input type="text" class="form-control" placeholder="Masukkan judul">
+    <input type="text" class="form-control" value="{{pd.judul}}">
   </div>
   <div class="form-group">
     <label>Deskripsi</label>
-    <input type="text" class="form-control" placeholder="Masukkan deskripsi">
+    <input type="text" class="form-control" value="{{pd.deskripsi}}">
   </div>
   <div class="form-group">
     <label>Kota</label>
-    <input type="text" class="form-control" placeholder="Masukkan kota">
+    <input type="text" class="form-control" value="{{pd.kota}}">
   </div>
   <div class="form-group">
     <label>Provinsi</label>
-    <input type="text" class="form-control" placeholder="Masukkan provinsi">
+    <input type="text" class="form-control" value="{{pd.provinsi}}">
   </div>
   <div class="form-group">
-    <label>Deadline Penggalangan Dana</label>
-    <input type="text" class="form-control" placeholder="Masukkan deadline">
+    <label>Deadline Penggalangan Dana{{pd.tanggal_aktif_akhir}}</label>
+    <input type="date" class="form-control" value="{{pd.tanggal_aktif_akhir}}">
   </div>
   <div class="form-group">
     <label>Jumlah Target Dana (Rupiah)</label>
-    <input type="text" class="form-control" placeholder="Masukkan target">
+    <input type="text" class="form-control" value="{{pd.jumlah_dibutuhkan}}">
   </div>
   <div class="form-group">
     <label>Status Verifikasi</label>
-    <input type="text" class="form-control" placeholder="Belum Terverifikasi" readonly>
+    <input type="text" class="form-control" value="{{pd.status_verifikasi}}" readonly>
   </div>
   <div class="form-group">
     <label>Diverifikasi Oleh</label>
-    <input type="text" class="form-control" placeholder="admin@sidona.com" readonly>
+    <input type="text" class="form-control" value="admin@sidona.com" readonly>
   </div>
-  {% if kategori == 'kesehatan' %}
+  {% if pd.nama_kategori == 'kesehatan' %}
   <hr />
-  <h4>Informasi Tambahan Penggalangan Dana</h4>
+  <h4>Informasi Tambahan Penggalangan Dana {{pd.}}</h4>
   <div class="form-group">
     <label>Kategori</label>
-    <input type="text" class="form-control" placeholder="Kesehatan" readonly>
+    <input type="text" class="form-control" value="{{pd.nama_kategori}}" readonly>
   </div>
   <div class="form-group">
     <label>NIK Pasien</label>
-    <input type="text" class="form-control" placeholder="Masukkan NIK pasien">
+    <input type="text" class="form-control" value="{{pdk.nik}}">
   </div>
   <div class="form-group">
     <label>Nama Pasien</label>
-    <input type="text" class="form-control" placeholder="Masukkan nama pasien">
+    <input type="text" class="form-control" value="Masukkan nama pasien">
   </div>
   <div class="form-group">
     <label>Penyakit Utama</label>
-    <input type="text" class="form-control" placeholder="Masukkan penyakit utama pasien">
+    <input type="text" class="form-control" value="Masukkan penyakit utama pasien">
   </div>
   <div class="form-group">
     <label>Komorbid</label>
-    <input type="text" class="form-control" placeholder="Masukkan komorbid pasien">
+    <input type="text" class="form-control" value="Masukkan komorbid pasien">
   </div>
   <div class="form-group">
     <label>Link berkas</label>
-    <input type="text" class="form-control" placeholder="Masukkan link berkas">
+    <input type="text" class="form-control" value="Masukkan link berkas">
   </div>
-  {% elif kategori == 'rumah_ibadah' %}
+  {% elif pd.nama_kategori == 'rumah_ibadah' %}
   <hr />
   <h4>Informasi Tambahan Penggalangan Dana</h4>
   <div class="form-group">
     <label>Kategori</label>
-    <input type="text" class="form-control" placeholder="Rumah Ibadah" readonly>
+    <input type="text" class="form-control" value="Rumah Ibadah" readonly>
   </div>
   <div class="form-group">
     <label>No Sertifikat Rumah Ibadah</label>
-    <input type="text" class="form-control" placeholder="Masukkan no sertifikat rumah ibadah">
+    <input type="text" class="form-control" value="Masukkan no sertifikat rumah ibadah">
   </div>
   <div class="form-group">
     <label>Kategori Aktivitas</label>
-    <input type="text" class="form-control" placeholder="Masukkan kategori aktivitas">
+    <input type="text" class="form-control" value="Masukkan kategori aktivitas">
   </div>
   <div class="form-group">
     <label>Link berkas</label>
-    <input type="text" class="form-control" placeholder="Masukkan link berkas">
+    <input type="text" class="form-control" value="Masukkan link berkas">
   </div>
   {% else %}
   <hr />
@@ -100,7 +100,7 @@
   {% endif %}
   <div class="form-group">
     <label>Link berkas</label>
-    <input type="text" class="form-control" placeholder="Masukkan link berkas">
+    <input type="text" class="form-control" value="Masukkan link berkas">
   </div>
   <button type="submit" class="btn btn-primary">Update</button>
 </form>

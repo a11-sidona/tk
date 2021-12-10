@@ -4,43 +4,61 @@
 {% block content %}
 
 <h1>Form Pembuatan Donasi</h1>
-<form class="mt-4 border p-4" style="max-width: 640px;">
+<form class="mt-4 border p-4" style="max-width: 640px;" method="POST">
   <h4>Informasi Umum Donasi</h4>
+  
   <div class="form-group">
     <label>Email</label>
-    <input type="text" class="form-control" placeholder="hahahha@gmail.com" disabled>
+    <input name="email" type="text" class="form-control" value='{{email_form}}' readonly>
   </div>
   <div class="form-group">
     <label>Timestamp</label>
-    <input type="text" class="form-control" placeholder="2021-11-27   14:32:50" disabled>
+    <input name="timestamp" type="text" class="form-control" id="timestamp" value="" readonly>
   </div>
   <div class="form-group">
     <label>Judul Penggalangan Dana</label>
-    <input type="text" class="form-control" placeholder="Ayo bantu Zulfahri menghadapi penyakit Demam Berdarahnya!" disabled>
+    <input name="judul" type="text" class="form-control" value='{{judul_form}}' readonly>
   </div>
+  
   <div class="form-group">
     <label>Nominal (Rupiah)</label>
-    <input type="text" class="form-control" placeholder="Masukkan nominal yang ingin didonasikan">
+    <input name="nominal" type="text" class="form-control" placeholder="Masukkan nominal yang ingin didonasikan">
   </div>
   <div class="form-group">
     <label for="FormControlSelect">Metode Bayar</label>
-    <select class="form-control" id="FormControlSelect">
+    <select name="bayar" class="form-control" id="FormControlSelect">
       <option>Transfer</option>
       <option>DonaPay</option>
     </select>
   </div>
   <div class="form-group">
-    <label for="FormControlSelect2">Status Anonim</label>
-    <select class="form-control" id="FormControlSelect2">
-      <option>Ya</option>
-      <option>Tidak</option>
+    <label for="FormControlSelect2">Status</label>
+    <select name="anonim" class="form-control" id="FormControlSelect2">
+      <option>Anonim</option>
+      <option>Non-anonim</option>
     </select>
   </div>
   <div class="form-group">
     <label for="FormControlTextarea">Doa</label>
-    <textarea class="form-control" id="FormControlTextarea" rows="3"></textarea>
+    <textarea name="doa" class="form-control" id="FormControlTextarea" rows="3"></textarea>
   </div>
-  <button type="submit" class="btn btn-primary">Create</button>
+  {% csrf_token %}
+  <input type="submit" name="donasi" class="btn btn-primary" value="Create">
 </form>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-kQtW33rZJAHjgefvhyyzcGF3C5TFyBQBA13V1RKPf4uH+bwyzQxZ6CmMZHmNBEfJ" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script>
+  window.onload = pickTimestamp();
+
+  function pickTimestamp() {
+    var today = new Date();
+    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    var dateTime = date+' '+time;
+    $("#timestamp").attr('value', dateTime);
+  }
+</script>
 
 {% endblock content %}

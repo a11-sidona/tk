@@ -37,8 +37,15 @@ def index(request):
                         """)
         
         wishlist = cursor.fetchall()
+
+        cursor.execute(f""" 
+                SELECT COUNT(pd.id) FROM PENGGALANGAN_DANA_PD pd JOIN  wishlist_donasi w
+                ON pd.id = w.idPd AND w.email = '{request.session.get("username")}'
+                        """)
+        jumlah_wishlist = cursor.fetchall()[0][0]
     
-        return render(request, 'profilePengguna.html', {'penggalangDana':penggalangDana, 'penggalanganDana':penggalanganDana, 'wishlist':wishlist})
+        return render(request, 'profilePengguna.html', {'penggalangDana':penggalangDana, 'penggalanganDana':penggalanganDana, 'wishlist':wishlist, 
+                        'jumlah_wishlist' : jumlah_wishlist})
 
 def pencairanDana(request):
     with connection.cursor() as cursor:
