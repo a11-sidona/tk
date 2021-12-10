@@ -94,7 +94,13 @@ def form_tambah_kategori(request):
 
 
 def list_kategori(request):
-    return render(request, "penggalangan/kategori/list.html")
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT * FROM kategori_pd")
+        result = namedtuple_fetch_all(cursor)
+        response ={
+            "kategoris": result
+        }
+    return render(request, "penggalangan/kategori/list.html", response)
 
 
 def form_update_kategori(request):
