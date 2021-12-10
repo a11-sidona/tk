@@ -109,3 +109,11 @@ def register_user_organisasi(request):
 
 def list_pengguna_terdaftar(request):
     return render(request, "admin/list_pengguna.html")
+
+def logout(request):
+    # Hilangkan semua dari session
+    request.session.pop("username", None)
+    request.session.pop("password", None)
+    request.session.pop("peran", None)
+
+    return redirect("main:home")
