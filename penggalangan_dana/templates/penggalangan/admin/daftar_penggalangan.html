@@ -2,8 +2,17 @@
 <title>Penggalangan Dana</title>
 {% endblock meta %} {% block content %}
 <h1>Halaman Daftar Penggalangan Dana (POV Admin)</h1>
+<input
+  type="text"
+  class="form-control"
+  id="search"
+  onkeyup="search()"
+  placeholder="Cari berdasarkan ID atau judul"
+/>
+<br />
 <table
-  class="table table-striped table-sm table-responsive"
+  class="table table-striped table-sm"
+  id="table"
   style="font-size: smaller"
 >
   <thead>
@@ -25,49 +34,67 @@
     {% for pd in pds %}
     <tr>
       <th scope="row">{{pd.id}}</th>
-      <td style="max-width: 20vw;">{{pd.judul}}</td>
+      <td style="max-width: 20vw">{{pd.judul}}</td>
       <td>{{pd.kota}}</td>
       <td>{{pd.provinsi}}</td>
       <td>
-        {% if pd.tanggal_aktif_awal %}
-          {{pd.tanggal_aktif_awal}}
-        {% endif %}
+        {% if pd.tanggal_aktif_awal %} {{pd.tanggal_aktif_awal}} {% endif %}
       </td>
       <td>
-        {% if pd.tanggal_aktif_akhir %}
-          {{pd.tanggal_aktif_akhir}}
-        {% endif %}
+        {% if pd.tanggal_aktif_akhir %} {{pd.tanggal_aktif_akhir}} {% endif %}
       </td>
       <td class="text-center">
-        {% if pd.sisa_hari %}
-          {{pd.sisa_hari}}
-        {% endif %}
+        {% if pd.sisa_hari %} {{pd.sisa_hari}} {% endif %}
       </td>
-      <td style="font-family: monospace;">Rp</td>
-      <td class="text-right" style="white-space:nowrap; font-family: monospace;">{{pd.jumlah_dibutuhkan|floatformat:"0"|intcomma}}</td>
-      <td>{{pd.nama_kategori}}</td>
+      <td style="font-family: monospace">Rp</td>
       <td
-      {% if pd.status_verifikasi == 'Belum verifikasi' %}
-        style="background-color: #FCA5A5"
-      {% else %}
-        style="background-color: #6EE7B7"
-      {% endif %}
+        class="text-right"
+        style="white-space: nowrap; font-family: monospace"
       >
-        {{pd.status_verifikasi}}
+        {{pd.jumlah_dibutuhkan|floatformat:"0"|intcomma}}
       </td>
+      <td>{{pd.nama_kategori}}</td>
+      {% if pd.status_verifikasi == 'Belum verifikasi' %}
+      <td style="background-color: #fca5a5">{{pd.status_verifikasi}}</td>
+      {% else %}
+      <td style="background-color: #6ee7b7">{{pd.status_verifikasi}}</td>
+      {% endif %}
       <td class="text-center">
-        <a href="#">
-          Detail
-        </a>
+        <a href="#"> Detail </a>
         {% if pd.status_verifikasi == 'Belum verifikasi' %}
         <br />
-        <a href="#">
-          Verifikasi
-        </a>
+        <a href="#"> Verifikasi </a>
         {% endif %}
       </td>
     </tr>
     {% endfor %}
   </tbody>
 </table>
+<script>
+  function search() {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("search");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("table");
+    tr = table.getElementsByTagName("tr");
+
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 0; i < tr.length; i++) {
+      id = tr[i].getElementsByTagName("th")[0];
+      judul = tr[i].getElementsByTagName("td")[0];
+      if (judul) {
+        idValue = id.textContent || id.innerText;
+        judulValue = judul.textContent || judul.innerText;
+        if (
+          idValue.toUpperCase().indexOf(filter) > -1 ||
+          judulValue.toUpperCase().indexOf(filter) > -1
+        ) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+    }
+  }
+</script>
 {% endblock content %}
